@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agenda da Igreja</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.css">
+    <style>
+        :root { --cor-igreja: #2c3e50; }
+        body { font-family: sans-serif; background-color: #f0f2f5; margin: 0; padding: 0; }
+        
+        /* Topo com Foto */
+        .header-igreja { 
+            width: 100%; 
+            background: var(--cor-igreja); 
+            color: white; 
+            text-align: center; 
+        }
+        .header-igreja img { 
+            width: 100%; 
+            max-height: 200px; 
+            object-fit: cover; /* Ajusta a foto sem distorcer */
+            display: block;
+        }
+        .header-titulo { padding: 15px; margin: 0; font-size: 1.2em; }
+
+        .container { padding: 10px; }
+        .calendario-card { 
+            background: white; 
+            border-radius: 12px; 
+            padding: 10px; 
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1); 
+        }
+
+        /* Ajustes do Calendário para Celular */
+        .fc-toolbar-title { font-size: 1.1em !important; }
+        .fc-button { padding: 5px 8px !important; font-size: 0.9em !important; text-transform: capitalize !important; }
+        .fc-event { cursor: pointer; padding: 2px 5px; font-size: 0.85em; }
+        
+        .footer { text-align: center; padding: 20px; color: #777; font-size: 0.8em; }
+    </style>
+</head>
+<body>
+
+<div class="header-igreja">
+    <img src="https://bumpy-cyan-g6gnknho56.edgeone.app/logo_calendario%20da%20igreja2026.jpg" alt="Foto da Igreja">
+    <h1 class="header-titulo">AGENDA DE EVENTOS</h1>
+</div>
+
+<div class="container">
+    <div class="calendario-card">
+        <div id="calendar"></div>
+    </div>
+</div>
+
+<div class="footer">
+    Desenvolvido para os membros da Igreja<br>
+    © 2024 Agenda Online
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/locales/pt-br.js"></script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var calendarEl = document.getElementById('calendar');
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+            locale: 'pt-br',
+            initialView: 'dayGridMonth', // Começa no modo mês
+            height: 'auto',
+            headerToolbar: {
+                left: 'prev,next',
+                center: 'title',
+                right: 'dayGridMonth,listMonth' // BOTÃO DE LISTA ADICIONADO AQUI
+            },
+            buttonText: {
+                month: 'Mês',
+                list: 'Lista'
+            },
+            // --- LISTA DE EVENTOS DA IGREJA ---
+            events: [
+                { title: 'Culto de Adoração', start: '2024-05-19T19:00:00', description: 'Traga um convidado!' },
+                { title: 'Círculo de Oração', start: '2024-05-21T09:00:00' },
+                { title: 'Estudo Bíblico', start: '2024-05-22T19:30:00' },
+                { title: 'Vigília', start: '2024-05-24T22:00:00' },
+                { title: 'Santa Ceia', start: '2024-06-02T18:00:00' }
+            ],
+            // ----------------------------------
+            eventClick: function(info) {
+                alert('Evento: ' + info.event.title + '\nHorário: ' + info.event.start.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}));
+            }
+        });
+        calendar.render();
+    });
+</script>
+
+</body>
+</html>
