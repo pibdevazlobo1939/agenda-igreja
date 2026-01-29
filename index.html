@@ -4,60 +4,45 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Agenda PIB Vaz Lobo 2026</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.css">
     <style>
         body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background-color: #f0f2f5; margin: 0; padding: 0; }
-        
         .header-igreja { width: 100%; background: #fff; text-align: center; border-bottom: 3px solid #1a5f7a; }
         .header-igreja img { width: 100%; max-width: 100%; height: auto; display: block; }
-
         .container { padding: 15px; position: relative; max-width: 800px; margin: auto; }
 
-        .btn-whatsapp {
-    display: block; 
-    background-color: #1a5f7a;
-    color: white; 
-    text-align: center; 
-    padding: 15px; 
-    margin: 0 auto 20px auto; 
-    border-radius: 10px; 
-    text-decoration: none; 
-    font-weight: bold; 
-    font-size: 1.1em; 
-    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-    border: 2px solid #ffffff;
-}
-
-        #custom-month-title {
-            text-align: center; font-size: 1.8em; font-weight: bold;
-            color: #1a5f7a; text-transform: uppercase; margin: 10px 0;
+        /* BOTÃO AGENDAR COM ÍCONE */
+        .btn-whatsapp { 
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            background-color: #1a5f7a; 
+            color: white; 
+            text-align: center; 
+            padding: 15px; 
+            margin: 0 auto 20px auto; 
+            border-radius: 10px; 
+            text-decoration: none; 
+            font-weight: bold; 
+            font-size: 1.1em; 
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            border: 2px solid #ffffff;
         }
+        .btn-whatsapp i { font-size: 1.4em; color: #25d366; } /* Ícone verde para destacar */
 
-        .calendario-card { 
-            background: white; border-radius: 15px; padding: 10px; 
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1); position: relative;
-        }
-
-        .nav-btn {
-            position: absolute; top: 50%; transform: translateY(-50%);
-            background: #1a5f7a; color: white; border: none;
-            width: 40px; height: 40px; border-radius: 50%;
-            font-size: 18px; cursor: pointer; z-index: 10;
-            display: flex; align-items: center; justify-content: center;
-        }
+        #custom-month-title { text-align: center; font-size: 1.8em; font-weight: bold; color: #1a5f7a; text-transform: uppercase; margin: 10px 0; }
+        .calendario-card { background: white; border-radius: 15px; padding: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); position: relative; }
+        
+        .nav-btn { position: absolute; top: 50%; transform: translateY(-50%); background: #1a5f7a; color: white; border: none; width: 40px; height: 40px; border-radius: 50%; font-size: 18px; cursor: pointer; z-index: 10; display: flex; align-items: center; justify-content: center; }
         .btn-prev { left: -10px; }
         .btn-next { right: -10px; }
-
-        .fc-toolbar { display: none !important; }
         
+        .fc-toolbar { display: none !important; }
         .view-selector { display: flex; justify-content: center; gap: 10px; margin-bottom: 15px; }
-        .view-selector button { 
-            padding: 10px 15px; border-radius: 20px; border: 1px solid #1a5f7a;
-            background: white; color: #1a5f7a; font-weight: bold; font-size: 0.8em;
-            text-transform: uppercase;
-        }
+        .view-selector button { padding: 10px 15px; border-radius: 20px; border: 1px solid #1a5f7a; background: white; color: #1a5f7a; font-weight: bold; font-size: 0.8em; text-transform: uppercase; }
         .view-selector button.active { background: #1a5f7a; color: white; }
-
         .footer { text-align: center; padding: 30px 20px; color: #777; font-size: 0.85em; line-height: 1.6; }
     </style>
 </head>
@@ -69,10 +54,10 @@
 
 <div class="container">
     <a href="https://wa.me/5521975349888?text=Olá,%20gostaria%20de%20agendar%20um%20evento." class="btn-whatsapp" target="_blank">
-        📅 AGENDAR EVENTO
+        <i class="fab fa-whatsapp"></i> AGENDAR EVENTO
     </a>
 
-    <div id="custom-month-title">JANEIRO</div>
+    <div id="custom-month-title"></div>
 
     <div class="view-selector">
         <button id="btn-mesh" class="active" onclick="changeView('dayGridMonth', this)">CALENDÁRIO</button>
@@ -101,12 +86,14 @@
         calendar = new FullCalendar.Calendar(calendarEl, {
             locale: 'pt-br',
             initialView: 'dayGridMonth',
+            // O calendário agora inicia automaticamente na data de hoje
             height: 'auto',
             headerToolbar: false,
             events: [
                 { title: 'Culto de Doutrina', start: '2026-01-29T19:30:00' },
                 { title: 'Vigília de Adoração', start: '2026-01-30T22:00:00' },
                 { title: 'Culto da Família', start: '2026-02-01T18:00:00' },
+                { title: 'Ensaio Geral', start: '2026-02-07T16:00:00' },
                 { title: 'Santa Ceia', start: '2026-02-08T18:00:00' }
             ],
             datesSet: function(info) {
@@ -126,9 +113,5 @@
         btn.classList.add('active');
     }
 </script>
-
 </body>
 </html>
-
-
-
