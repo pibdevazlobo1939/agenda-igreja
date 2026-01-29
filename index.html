@@ -2,49 +2,29 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Agenda da Igreja</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Agenda PIB Vaz Lobo 2026</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.css">
     <style>
-        :root { --cor-igreja: #2c3e50; }
-        body { font-family: sans-serif; background-color: #f0f2f5; margin: 0; padding: 0; }
-        
-        /* Topo com Foto */
-        .header-igreja { 
-            width: 100%; 
-            background: var(--cor-igreja); 
-            color: white; 
-            text-align: center; 
-        }
-        .header-igreja img { 
-            width: 100%; 
-            max-height: 200px; 
-            object-fit: cover; /* Ajusta a foto sem distorcer */
-            display: block;
-        }
-        .header-titulo { padding: 15px; margin: 0; font-size: 1.2em; }
-
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background-color: #f0f2f5; margin: 0; padding: 0; }
+        .header-igreja { width: 100%; background: #1a5f7a; color: white; text-align: center; }
+        .header-igreja img { width: 100%; max-height: 200px; object-fit: cover; display: block; }
+        .header-titulo { padding: 15px; margin: 0; font-size: 1.3em; letter-spacing: 1px; }
         .container { padding: 10px; }
-        .calendario-card { 
-            background: white; 
-            border-radius: 12px; 
-            padding: 10px; 
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1); 
-        }
-
-        /* Ajustes do Calendário para Celular */
-        .fc-toolbar-title { font-size: 1.1em !important; }
-        .fc-button { padding: 5px 8px !important; font-size: 0.9em !important; text-transform: capitalize !important; }
-        .fc-event { cursor: pointer; padding: 2px 5px; font-size: 0.85em; }
+        .calendario-card { background: white; border-radius: 12px; padding: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
         
-        .footer { text-align: center; padding: 20px; color: #777; font-size: 0.8em; }
+        /* Ajustes de cores e botões */
+        .fc-toolbar-title { font-size: 1.1em !important; text-transform: capitalize; color: #1a5f7a; }
+        .fc-button-primary { background-color: #1a5f7a !important; border: none !important; }
+        .fc-daygrid-event { white-space: normal !important; align-items: center; }
+        .footer { text-align: center; padding: 20px; color: #777; font-size: 0.8em; line-height: 1.5; }
     </style>
 </head>
 <body>
 
 <div class="header-igreja">
-    <img src="https://bumpy-cyan-g6gnknho56.edgeone.app/logo_calendario%20da%20igreja2026.jpg" alt="Foto da Igreja">
-    <h1 class="header-titulo">AGENDA DE EVENTOS</h1>
+    <img src="https://images.unsplash.com/photo-1438232992991-995b7058bbb3?auto=format&fit=crop&w=800&q=80" alt="PIB Vaz Lobo">
+    <h1 class="header-titulo">AGENDA - PIB VAZ LOBO</h1>
 </div>
 
 <div class="container">
@@ -54,8 +34,8 @@
 </div>
 
 <div class="footer">
-    Desenvolvido pela equipe da Comunicão PIBVL<br>
-    © 2026 Agenda Online
+    <b>Primeira Igreja Batista de Vaz Lobo</b><br>
+    <i>"Alegrei-me quando me disseram: Vamos à casa do Senhor." (Salmos 122:1)</i>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.js"></script>
@@ -66,28 +46,28 @@
         var calendarEl = document.getElementById('calendar');
         var calendar = new FullCalendar.Calendar(calendarEl, {
             locale: 'pt-br',
-            initialView: 'dayGridMonth', // Começa no modo mês
+            initialView: window.innerWidth < 768 ? 'listMonth' : 'dayGridMonth',
             height: 'auto',
             headerToolbar: {
-                left: 'prev,next',
+                left: 'prev,next today',
                 center: 'title',
-                right: 'dayGridMonth,listMonth' // BOTÃO DE LISTA ADICIONADO AQUI
+                right: 'dayGridMonth,listMonth'
             },
-            buttonText: {
-                month: 'Mês',
-                list: 'Lista'
-            },
-            // --- LISTA DE EVENTOS DA IGREJA ---
+            buttonText: { today: 'Hoje', month: 'Mês', list: 'Lista' },
+            
+            // --- EVENTOS DE 2026 ---
+            // Siga o padrão: ANO-MES-DIA (Ex: 2026-01-29)
             events: [
-                { title: 'Culto de Adoração', start: '2024-05-19T19:00:00', description: 'Traga um convidado!' },
-                { title: 'Círculo de Oração', start: '2024-05-21T09:00:00' },
-                { title: 'Estudo Bíblico', start: '2024-05-22T19:30:00' },
-                { title: 'Vigília', start: '2024-05-24T22:00:00' },
-                { title: 'Santa Ceia', start: '2024-06-02T18:00:00' }
+                { title: 'Culto de Doutrina', start: '2026-01-29T19:30:00' },
+                { title: 'Vigília de Adoração', start: '2026-01-30T22:00:00' },
+                { title: 'Culto da Família', start: '2026-02-01T18:00:00' },
+                { title: 'Reunião de Oração', start: '2026-02-03T19:00:00' },
+                { title: 'Ensaio Geral', start: '2026-02-07T16:00:00' },
+                { title: 'Santa Ceia', start: '2026-02-08T18:00:00' }
             ],
-            // ----------------------------------
+            
             eventClick: function(info) {
-                alert('Evento: ' + info.event.title + '\nHorário: ' + info.event.start.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}));
+                alert('Evento: ' + info.event.title + '\nData: ' + info.event.start.toLocaleDateString('pt-BR'));
             }
         });
         calendar.render();
@@ -96,4 +76,3 @@
 
 </body>
 </html>
-
