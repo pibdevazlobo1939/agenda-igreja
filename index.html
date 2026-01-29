@@ -8,13 +8,11 @@
     <style>
         body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background-color: #f0f2f5; margin: 0; padding: 0; }
         
-        /* Topo e Foto */
         .header-igreja { width: 100%; background: #fff; text-align: center; border-bottom: 3px solid #1a5f7a; }
-        .header-igreja img { width: 100%; max-height: 250px; object-fit: contain; display: block; }
+        .header-igreja img { width: 100%; max-width: 100%; height: auto; display: block; }
 
         .container { padding: 15px; position: relative; max-width: 800px; margin: auto; }
 
-        /* Botão Agendar Evento (WhatsApp) */
         .btn-whatsapp {
             display: block; background-color: #25d366; color: white; text-align: center;
             padding: 15px; margin: 0 auto 20px auto; border-radius: 10px;
@@ -22,67 +20,60 @@
             box-shadow: 0 4px 8px rgba(0,0,0,0.2);
         }
 
-        /* Título do Mês Limpo */
         #custom-month-title {
             text-align: center; font-size: 1.8em; font-weight: bold;
             color: #1a5f7a; text-transform: uppercase; margin: 10px 0;
         }
 
-        /* Calendário Card e Setas */
         .calendario-card { 
             background: white; border-radius: 15px; padding: 10px; 
             box-shadow: 0 4px 15px rgba(0,0,0,0.1); position: relative;
         }
 
-        /* SETAS LATERAIS CENTRALIZADAS */
         .nav-btn {
             position: absolute; top: 50%; transform: translateY(-50%);
             background: #1a5f7a; color: white; border: none;
             width: 40px; height: 40px; border-radius: 50%;
             font-size: 18px; cursor: pointer; z-index: 10;
             display: flex; align-items: center; justify-content: center;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
         }
         .btn-prev { left: -10px; }
         .btn-next { right: -10px; }
 
-        /* Esconde o topo original bagunçado */
         .fc-toolbar { display: none !important; }
         
-        /* Seletor de Visão Organizado */
         .view-selector { display: flex; justify-content: center; gap: 10px; margin-bottom: 15px; }
         .view-selector button { 
             padding: 10px 15px; border-radius: 20px; border: 1px solid #1a5f7a;
             background: white; color: #1a5f7a; font-weight: bold; font-size: 0.8em;
+            text-transform: uppercase;
         }
         .view-selector button.active { background: #1a5f7a; color: white; }
 
-        .fc-daygrid-event { border-radius: 4px; padding: 2px; font-size: 0.85em; }
         .footer { text-align: center; padding: 30px 20px; color: #777; font-size: 0.85em; line-height: 1.6; }
     </style>
 </head>
 <body>
 
 <div class="header-igreja">
-    <img src="mukv8-dkgpr.jpg" alt="PIB Vaz Lobo">
+    <img src="https://raw.githubusercontent.com/pibdevazlobo1939/agenda-igreja/main/logo_calendario%20da%20igreja2026.jpg" alt="PIB Vaz Lobo">
 </div>
 
 <div class="container">
-    <a href="https://wa.me/5521975349888?text=Olá,%20gostaria%20de%20agendar%20um%20evento%20na%20igreja." class="btn-whatsapp" target="_blank">
+    <a href="https://wa.me/5521975349888?text=Olá,%20gostaria%20de%20agendar%20um%20evento." class="btn-whatsapp" target="_blank">
         📅 AGENDAR EVENTO
     </a>
 
     <div id="custom-month-title">JANEIRO</div>
 
     <div class="view-selector">
-        <button id="btn-mesh" class="active" onclick="changeView('dayGridMonth', this)">VISÃO MÊS</button>
+        <button id="btn-mesh" class="active" onclick="changeView('dayGridMonth', this)">CALENDÁRIO</button>
         <button id="btn-lista" onclick="changeView('listMonth', this)">LISTA DE EVENTOS</button>
     </div>
 
     <div class="calendario-card">
         <button class="nav-btn btn-prev" onclick="calPrev()">&#10094;</button>
         <button class="nav-btn btn-next" onclick="calNext()">&#10095;</button>
-        
         <div id="calendar"></div>
     </div>
 </div>
@@ -97,24 +88,20 @@
 
 <script>
     var calendar;
-
     document.addEventListener('DOMContentLoaded', function() {
         var calendarEl = document.getElementById('calendar');
         calendar = new FullCalendar.Calendar(calendarEl, {
             locale: 'pt-br',
             initialView: 'dayGridMonth',
             height: 'auto',
-            headerToolbar: false, // Desligado para usar o nosso design limpo
+            headerToolbar: false,
             events: [
-                { title: 'Teste', start: '2026-01-29'},
+                { title: 'Culto de Doutrina', start: '2026-01-29T19:30:00' },
                 { title: 'Vigília de Adoração', start: '2026-01-30T22:00:00' },
                 { title: 'Culto da Família', start: '2026-02-01T18:00:00' },
-                { title: 'Reunião de Oração', start: '2026-02-03T19:00:00' },
-                { title: 'Ensaio Geral', start: '2026-02-07T16:00:00' },
                 { title: 'Santa Ceia', start: '2026-02-08T18:00:00' }
             ],
             datesSet: function(info) {
-                // Pega o título (Ex: "janeiro de 2026") e deixa só "JANEIRO"
                 var fullTitle = info.view.title;
                 var monthOnly = fullTitle.split(' de ')[0];
                 document.getElementById('custom-month-title').innerText = monthOnly;
@@ -123,11 +110,8 @@
         calendar.render();
     });
 
-    // Funções das Setas Laterais
     function calPrev() { calendar.prev(); }
     function calNext() { calendar.next(); }
-
-    // Funções de Troca de Visão
     function changeView(viewType, btn) {
         calendar.changeView(viewType);
         document.querySelectorAll('.view-selector button').forEach(b => b.classList.remove('active'));
