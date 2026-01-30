@@ -12,23 +12,11 @@
         .header-igreja img { width: 100%; max-width: 100%; height: auto; display: block; }
         .container { padding: 15px; position: relative; max-width: 800px; margin: auto; }
 
-        
         .btn-whatsapp { 
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            background-color: #1a5f7a; 
-            color: white; 
-            text-align: center; 
-            padding: 15px; 
-            margin: 0 auto 20px auto; 
-            border-radius: 10px; 
-            text-decoration: none; 
-            font-weight: bold; 
-            font-size: 1.1em; 
-            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-            border: 2px solid #ffffff;
+            display: flex; align-items: center; justify-content: center; gap: 10px;
+            background-color: #1a5f7a; color: white; text-align: center; padding: 15px; 
+            margin: 0 auto 20px auto; border-radius: 10px; text-decoration: none; 
+            font-weight: bold; font-size: 1.1em; box-shadow: 0 4px 8px rgba(0,0,0,0.2); border: 2px solid #ffffff;
         }
         .btn-whatsapp i { font-size: 1.4em; color: #25d366; } 
 
@@ -41,9 +29,12 @@
         
         .fc-toolbar { display: none !important; }
         .view-selector { display: flex; justify-content: center; gap: 10px; margin-bottom: 15px; }
-        .view-selector button { padding: 10px 15px; border-radius: 20px; border: 1px solid #1a5f7a; background: white; color: #1a5f7a; font-weight: bold; font-size: 0.8em; text-transform: uppercase; }
+        .view-selector button { padding: 10px 15px; border-radius: 20px; border: 1px solid #1a5f7a; background: white; color: #1a5f7a; font-weight: bold; font-size: 0.8em; text-transform: uppercase; cursor: pointer; }
         .view-selector button.active { background: #1a5f7a; color: white; }
         .footer { text-align: center; padding: 30px 20px; color: #777; font-size: 0.85em; line-height: 1.6; }
+        
+        /* Ajuste para eventos longos no celular */
+        .fc-event-title { white-space: normal !important; font-size: 0.85em; }
     </style>
 </head>
 <body>
@@ -86,44 +77,43 @@
         calendar = new FullCalendar.Calendar(calendarEl, {
             locale: 'pt-br',
             initialView: 'dayGridMonth',
-           
             height: 'auto',
             headerToolbar: false,
             events: [
-                { title: 'Conferência do Espírito Santo', start: '24-04-2026' },
-                { title: 'Conferência do Espírito Santo', start: '25-04-2026' },
-                { title: 'Conferência do Espírito Santo', start: '26-04-2026' },
-                { title: 'Conferência da Família', start: '29-05-2026' },
-                { title: 'Conferência da Família', start: '30-05-2026' },
-                { title: 'Conferência da Família', start: '31-05-2026' },
-                { title: 'Conferência Eu tenho um chamado', start: '03-06-2026' }
-                { title: 'Conferência Eu tenho um chamado', start: '04-06-2026' }
-                { title: 'Conferência Eu tenho um chamado', start: '05-06-2026' }
-                { title: 'Conferência Quarto de Guerra', start: '02-07-2026' }
-                { title: 'Conferência Quarto de Guerra', start: '09-07-2026' }
-                { title: 'Conferência Quarto de Guerra', start: '16-07-2026' }
-                { title: 'Conferência Quarto de Guerra', start: '23-07-2026' }
-                { title: 'Conferência Quarto de Guerra', start: '30-07-2026' }
-                { title: 'Imersão', start: '02-10-2026' }
-                { title: 'Imersão', start: '03-10-2026' }
-                { title: 'Imersão', start: '04-10-2026' }
-                { title: 'Imersão', start: '04-12-2026' }
-                { title: 'Imersão', start: '05-12-2026' }
-                { title: 'Cantina reservada para o Minist. Comunicação', start: '12-04-2026' 'Noite' }
-                { title: 'Cantina reservada para o Minist. Comunicação', start: '10-05-2026''Manhã' }
-                { title: 'Cantina reservada para o Minist. Comunicação', start: '14-06-2026''Manhã' }
-                { title: 'Cantina reservada para o Minist. Comunicação', start: '12-07-2026''Manhã' }
-                { title: 'Cantina reservada para o Minist. Comunicação', start: '13-09-2026''Noite' }
-                { title: 'Cantina reservada para o Minist. Dança', start: '01-02-2026''Manhã' }
-                { title: 'Cantina reservada para o Minist. Dança', start: '01-03-2026''Manhã' }
-                { title: 'Cantina reservada para o Minist. Dança', start: '05-04-2026''Manhã' }
-                { title: 'Cantina reservada para o Minist. Dança', start: '03-05-2026''Manhã' }
-                { title: 'Cantina reservada para o Minist. Dança', start: '07-06-2026''Manhã' }
-                { title: 'Cantina reservada para o Minist. Dança', start: '05-07-2026''Manhã' }
-                { title: 'Cantina reservada para o Minist. Dança', start: '02-08-2026''Manhã' }
-                { title: 'Cantina reservada para o Minist. Dança', start: '06-09-2026''Manhã' }
-                { title: 'Cantina reservada para o Minist. Dança', start: '04-10-2026''Manhã' }
-                { title: 'Cantina reservada para o Minist. Dança', start: '01-11-2026''Manhã' }
+                { title: 'Conferência do Espírito Santo', start: '2026-04-24' },
+                { title: 'Conferência do Espírito Santo', start: '2026-04-25' },
+                { title: 'Conferência do Espírito Santo', start: '2026-04-26' },
+                { title: 'Conferência da Família', start: '2026-05-29' },
+                { title: 'Conferência da Família', start: '2026-05-30' },
+                { title: 'Conferência da Família', start: '2026-05-31' },
+                { title: 'Conferência Eu tenho um chamado', start: '2026-06-03' },
+                { title: 'Conferência Eu tenho um chamado', start: '2026-06-04' },
+                { title: 'Conferência Eu tenho um chamado', start: '2026-06-05' },
+                { title: 'Conferência Quarto de Guerra', start: '2026-07-02' },
+                { title: 'Conferência Quarto de Guerra', start: '2026-07-09' },
+                { title: 'Conferência Quarto de Guerra', start: '2026-07-16' },
+                { title: 'Conferência Quarto de Guerra', start: '2026-07-23' },
+                { title: 'Conferência Quarto de Guerra', start: '2026-07-30' },
+                { title: 'Imersão', start: '2026-10-02' },
+                { title: 'Imersão', start: '2026-10-03' },
+                { title: 'Imersão', start: '2026-10-04' },
+                { title: 'Imersão', start: '2026-12-04' },
+                { title: 'Imersão', start: '2026-12-05' },
+                { title: 'Cantina Minist. Comunicação (Noite)', start: '2026-04-12' },
+                { title: 'Cantina Minist. Comunicação (Manhã)', start: '2026-05-10' },
+                { title: 'Cantina Minist. Comunicação (Manhã)', start: '2026-06-14' },
+                { title: 'Cantina Minist. Comunicação (Manhã)', start: '2026-07-12' },
+                { title: 'Cantina Minist. Comunicação (Noite)', start: '2026-09-13' },
+                { title: 'Cantina Minist. Dança (Manhã)', start: '2026-02-01' },
+                { title: 'Cantina Minist. Dança (Manhã)', start: '2026-03-01' },
+                { title: 'Cantina Minist. Dança (Manhã)', start: '2026-04-05' },
+                { title: 'Cantina Minist. Dança (Manhã)', start: '2026-05-03' },
+                { title: 'Cantina Minist. Dança (Manhã)', start: '2026-06-07' },
+                { title: 'Cantina Minist. Dança (Manhã)', start: '2026-07-05' },
+                { title: 'Cantina Minist. Dança (Manhã)', start: '2026-08-02' },
+                { title: 'Cantina Minist. Dança (Manhã)', start: '2026-09-06' },
+                { title: 'Cantina Minist. Dança (Manhã)', start: '2026-10-04' },
+                { title: 'Cantina Minist. Dança (Manhã)', start: '2026-11-01' }
             ],
             datesSet: function(info) {
                 var fullTitle = info.view.title;
@@ -144,5 +134,3 @@
 </script>
 </body>
 </html>
-
-
