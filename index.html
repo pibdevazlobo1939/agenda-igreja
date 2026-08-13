@@ -130,17 +130,23 @@
 <!-- Scripts -->
 <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/locales/pt-br.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@fullcalendar/google-calendar@5.11.3/main.min.js"></script>
 
 <script>
     var calendar;
     var calendarIniciado = false;
 
+    // CREDENCIAIS GOOGLE CALENDAR
+    const GOOGLE_API_KEY = 'AIzaSyCFYYuGZzT-wAz1K1QdLfpQ8w5h5j5mrZ4';
+    const ID_AGENDA_EVENTOS = '2eb00c4b73ae3ccd71c18685ae370fc0093d25053f96023d136fb9fcf92a12b1@group.calendar.google.com';
+    const ID_AGENDA_CANTINA = 'e8131609e45e45262631caec0830f90b5514240178b41ee49515c03d0b7c9038@group.calendar.google.com';
+
     // WHATSAPP CONTATOS
     const LINK_WA_EVENTOS = "https://wa.me/5521966709417?text=Olá,%20gostaria%20de%20reservar%20uma%20data%20para%20Evento/Atividade.";
     const LINK_WA_CANTINA = "https://wa.me/5521966709417?text=Olá,%20gostaria%20de%20reservar%20uma%20data%20para%20a%20Cantina.";
 
-    // 1. EVENTOS E ATIVIDADES (SEM CANTINAS)
-    const listaEventos = [
+    // EVENTOS FIXOS DO CÓDIGO (SEM CANTINAS)
+    const listaEventosFixo = [
         { title: 'Reunião de Obreiros (Manhã)', start: '2026-03-14' },
         { title: 'Encontro de Homens (A Tarde)', start: '2026-04-18' },
         { title: 'Conferência do Espírito Santo', start: '2026-05-01' },
@@ -190,47 +196,30 @@
         { title: 'Encontro de Homens (A Tarde)', start: '2026-12-12' }
     ];
 
-    // 2. CALENDÁRIO DA CANTINA (AGOOSTO A DEZEMBRO)
-    const listaCantina = [
-        // Agosto
+    // EVENTOS FIXOS DA CANTINA (AGOSTO A DEZEMBRO)
+    const listaCantinaFixo = [
         { title: 'Dança (Manhã)', start: '2026-08-02' },
         { title: 'Juventude - Grupo Sarah (Manhã)', start: '2026-08-09' },
         { title: 'Juventude - Grupo Esther (Manhã)', start: '2026-08-16' },
         { title: 'Juventude - Grupo Beby (Manhã)', start: '2026-08-23' },
         { title: 'Juventude (Manhã)', start: '2026-08-30' },
-        // Setembro
         { title: 'Dança (Manhã)', start: '2026-09-06' },
         { title: 'Departamento Infantil (Manhã)', start: '2026-09-13' },
         { title: 'Célula - Levi (Noite)', start: '2026-09-13' },
         { title: 'Célula - Levi (Noite)', start: '2026-09-20' },
         { title: 'Departamento Infantil (Manhã)', start: '2026-09-27' },
-        // Outubro
         { title: 'Dança (Manhã)', start: '2026-10-04' },
         { title: 'Multimídia (Manhã)', start: '2026-10-11' },
         { title: 'Célula - Levi (Noite)', start: '2026-10-18' },
         { title: 'Departamento Infantil (Manhã)', start: '2026-10-25' },
         { title: 'Ministério de Dança (Noite)', start: '2026-10-31' },
-        // Novembro
         { title: 'Dança (Manhã)', start: '2026-11-01' },
         { title: 'Almoço Dança (Manhã)', start: '2026-11-08' },
         { title: 'Multimídia (Noite)', start: '2026-11-08' },
         { title: 'Célula - Levi (Noite)', start: '2026-11-15' },
         { title: 'Departamento Infantil (Manhã)', start: '2026-11-22' },
-        // Dezembro
         { title: 'Departamento Infantil (Manhã)', start: '2026-12-13' }
     ];
-
-    const fonteEventos = {
-        events: listaEventos,
-        color: '#1a5f7a',
-        textColor: '#ffffff'
-    };
-
-    const fonteCantina = {
-        events: listaCantina,
-        color: '#2e7d32',
-        textColor: '#ffffff'
-    };
 
     function abrirCalendario(tipo) {
         document.getElementById('tela-inicio').style.display = 'none';
@@ -246,6 +235,7 @@
                 height: 'auto',
                 headerToolbar: false,
                 displayEventTime: false,
+                googleCalendarApiKey: GOOGLE_API_KEY,
                 datesSet: function(info) {
                     var fullTitle = info.view.title;
                     var monthOnly = fullTitle.split(' de ')[0];
@@ -256,17 +246,19 @@
             calendarIniciado = true;
         }
 
-        // Limpa fontes anteriores
+        // Limpa fontes ativas no momento
         var fontesAtivas = calendar.getEventSources();
         fontesAtivas.forEach(f => f.remove());
 
-        // Alterna entre Eventos e Cantina
+        // Conecta Fonte Local + Google Agenda
         if (tipo === 'eventos') {
-            calendar.addEventSource(fonteEventos);
+            calendar.addEventSource({ events: listaEventosFixo, color: '#1a5f7a', textColor: '#ffffff' });
+            calendar.addEventSource({ googleCalendarId: ID_AGENDA_EVENTOS, color: '#1a5f7a', textColor: '#ffffff' });
             btnReserva.href = LINK_WA_EVENTOS;
             btnReserva.style.backgroundColor = "#1a5f7a";
         } else {
-            calendar.addEventSource(fonteCantina);
+            calendar.addEventSource({ events: listaCantinaFixo, color: '#2e7d32', textColor: '#ffffff' });
+            calendar.addEventSource({ googleCalendarId: ID_AGENDA_CANTINA, color: '#2e7d32', textColor: '#ffffff' });
             btnReserva.href = LINK_WA_CANTINA;
             btnReserva.style.backgroundColor = "#2e7d32";
         }
