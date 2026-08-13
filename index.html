@@ -141,7 +141,7 @@
     var calendar;
     var calendarIniciado = false;
 
-    // === CREDENCIAIS ===
+    // === CREDENCIAIS GOOGLE (OPCIONAL/MANTIDAS) ===
     const GOOGLE_API_KEY = 'AIzaSyCFYYuGZzT-wAz1K1QdLfpQ8w5h5j5mrZ4';
     const ID_AGENDA_EVENTOS = '2eb00c4b73ae3ccd71c18685ae370fc0093d25053f96023d136fb9fcf92a12b1@group.calendar.google.com';
     const ID_AGENDA_CANTINA = 'e8131609e45e45262631caec0830f90b5514240178b41ee49515c03d0b7c9038@group.calendar.google.com';
@@ -150,8 +150,110 @@
     const LINK_WA_EVENTOS = "https://wa.me/5521966709417?text=Olá,%20gostaria%20de%20reservar%20uma%20data%20para%20Evento/Atividade.";
     const LINK_WA_CANTINA = "https://wa.me/5521966709417?text=Olá,%20gostaria%20de%20reservar%20uma%20data%20para%20a%20Cantina.";
 
+    // LISTA DE EVENTOS DO CALENDÁRIO DE EVENTOS E ATIVIDADES
+    const listaEventosEAtividades = [
+        { title: 'Cantina Minist. Dança (Manhã)', start: '2026-02-01' },
+        { title: 'Cantina Minist. Dança (Manhã)', start: '2026-03-01' },
+        { title: 'Cantina Minist. Infantil (Noite)', start: '2026-03-08' },
+        { title: 'Reunião de Obreiros (Manhã)', start: '2026-03-14' },
+        { title: 'Cantina Minist. Dança (Manhã)', start: '2026-04-05' },
+        { title: 'Encontro de Homens (A Tarde)', start: '2026-04-18' },
+        { title: 'Conferência do Espírito Santo', start: '2026-05-01' },
+        { title: 'Conferência do Espírito Santo', start: '2026-05-02' },
+        { title: 'Conferência do Espírito Santo', start: '2026-05-03' },
+        { title: 'Cantina Minist. Dança (Manhã)', start: '2026-05-03' },
+        { title: 'Culto da Rede Teens (A Tarde)', start: '2026-05-03' },
+        { title: 'Rede de Mulheres (A Tarde)', start: '2026-05-09' },
+        { title: 'Cantina Minist. Infantil (Manhã)', start: '2026-05-17' },
+        { title: 'Reunião de Obreiros (Manhã)', start: '2026-05-23' },
+        { title: 'Encontro de Homens (A Tarde)', start: '2026-05-23' },
+        { title: 'Conferência da Família', start: '2026-05-29' },
+        { title: 'Conferência da Família', start: '2026-05-30' },
+        { title: 'Conferência da Família', start: '2026-05-31' },
+        { title: 'Cantina Minist. Dança (Manhã)', start: '2026-06-07' },
+        { title: 'Culto da Rede Teens (A Tarde)', start: '2026-06-07' },
+        { title: 'Encontro de Homens (A Tarde)', start: '2026-06-20' },
+        { title: 'Cantina Minist. Infantil (Manhã)', start: '2026-06-21' },
+        { title: 'Conferência Eu tenho um chamado', start: '2026-07-03' },
+        { title: 'Conferência Eu tenho um chamado', start: '2026-07-04' },
+        { title: 'Reunião de Obreiros (Manhã)', start: '2026-07-04' },
+        { title: 'Conferência Eu tenho um chamado', start: '2026-07-05' },
+        { title: 'Cantina Minist. Dança (Manhã)', start: '2026-07-05' },
+        { title: 'Evento dos Kids (Manhã)', start: '2026-07-11' },
+        { title: 'Ensaio Geral Minist.Louvor (A Tarde)', start: '2026-07-18' },
+        { title: 'Culto do Ministério do Louvor', start: '2026-07-25' },
+        { title: 'Culto do Ministério do Louvor', start: '2026-07-26' },
+        { title: 'Cantina Minist. Infantil (Noite)', start: '2026-07-26' },
+        { title: 'Cantina Minist. Dança (Manhã)', start: '2026-08-02' },
+        { title: 'Culto da Rede Teens (A Tarde)', start: '2026-08-02' },
+        { title: 'Cantina Minist. Infantil (Manhã)', start: '2026-08-09' },
+        { title: 'Encontro de Homens (A Tarde)', start: '2026-08-22' },
+        { title: 'Culto da Juventude', start: '2026-08-28' },
+        { title: 'Culto da Juventude', start: '2026-08-29' },
+        { title: 'Culto da Juventude', start: '2026-08-30' },
+        { title: 'Conferência Quarto de Guerra', start: '2026-09-05' },
+        { title: 'Conferência Quarto de Guerra', start: '2026-09-06' },
+        { title: 'Cantina Minist. Dança (Manhã)', start: '2026-09-06' },
+        { title: 'Culto da Rede Teens (A Tarde)', start: '2026-09-06' },
+        { title: 'Reunião de Obreiros (Manhã)', start: '2026-09-12' },
+        { title: 'Rede de Mulheres (A Tarde)', start: '2026-09-19' },
+        { title: 'Encontro de Homens (A Tarde)', start: '2026-09-26' },
+        { title: 'Cantina Minist. Infantil (Noite)', start: '2026-09-28' },
+        { title: 'Imersão', start: '2026-10-02' },
+        { title: 'Imersão', start: '2026-10-03' },
+        { title: 'Imersão', start: '2026-10-04' },
+        { title: 'Cantina Minist. Dança (Manhã)', start: '2026-10-04' },
+        { title: 'Culto da Rede Teens (A Tarde)', start: '2026-10-04' },
+        { title: 'Encontro de Homens (A Tarde)', start: '2026-10-17' },
+        { title: 'Cantina Minist. Infantil (Manhã)', start: '2026-10-25' },
+        { title: 'Culto do Ministério de Dança (Noite)', start: '2026-10-31' },
+        { title: 'Cantina Minist. Dança (Manhã)', start: '2026-11-01' },
+        { title: 'Culto da Rede Teens (A Tarde)', start: '2026-11-01' },
+        { title: 'Reunião de Obreiros (Manhã)', start: '2026-11-14' },
+        { title: 'Rede de Mulheres (A Tarde)', start: '2026-11-14' },
+        { title: 'Encontro de Homens (A Tarde)', start: '2026-11-21' },
+        { title: 'Cantina Minist. Infantil (Manhã)', start: '2026-11-22' },
+        { title: 'Treinamento de Líderes', start: '2026-12-04' },
+        { title: 'Treinamento de Líderes', start: '2026-12-05' },
+        { title: 'Culto da Rede Teens (A Tarde)', start: '2026-12-06' },
+        { title: 'Encontro de Homens (A Tarde)', start: '2026-12-12' },
+        { title: 'Cantina Minist. Infantil (Manhã)', start: '2026-12-13' }
+    ];
+
+    // LISTA DE EVENTOS DO CALENDÁRIO DA CANTINA
+    const listaEventosCantina = [
+        // Agosto
+        { title: 'Cantina Dança (Manhã)', start: '2026-08-02' },
+        { title: 'Cantina Juventude - Grupo Sarah (Manhã)', start: '2026-08-09' },
+        { title: 'Cantina Juventude - Grupo Esther (Manhã)', start: '2026-08-16' },
+        { title: 'Cantina Juventude - Grupo Beby (Manhã)', start: '2026-08-23' },
+        { title: 'Cantina Juventude (Manhã)', start: '2026-08-30' },
+        // Setembro
+        { title: 'Cantina Dança (Manhã)', start: '2026-09-06' },
+        { title: 'Cantina Depto. Infantil (Manhã)', start: '2026-09-13' },
+        { title: 'Cantina Célula / Levi (Noite)', start: '2026-09-13' },
+        { title: 'Cantina Célula / Levi (Noite)', start: '2026-09-20' },
+        { title: 'Cantina Depto. Infantil (Manhã)', start: '2026-09-27' },
+        // Outubro
+        { title: 'Cantina Dança (Manhã)', start: '2026-10-04' },
+        { title: 'Cantina Multimídia (Manhã)', start: '2026-10-11' },
+        { title: 'Cantina Célula / Levi (Noite)', start: '2026-10-18' },
+        { title: 'Cantina Depto. Infantil (Manhã)', start: '2026-10-25' },
+        { title: 'Cantina Minist. Dança (Noite)', start: '2026-10-31' },
+        // Novembro
+        { title: 'Cantina Dança (Manhã)', start: '2026-11-01' },
+        { title: 'Almoço Dança (Manhã)', start: '2026-11-08' },
+        { title: 'Cantina Multimídia (Noite)', start: '2026-11-08' },
+        { title: 'Cantina Célula / Levi (Noite)', start: '2026-11-15' },
+        { title: 'Cantina Depto. Infantil (Manhã)', start: '2026-11-22' },
+        // Dezembro
+        { title: 'Cantina Depto. Infantil (Manhã)', start: '2026-12-13' }
+    ];
+
+    // Fontes formatadas para o FullCalendar
     const fonteEventos = {
         id: 'fonte-eventos',
+        events: listaEventosEAtividades,
         googleCalendarId: ID_AGENDA_EVENTOS,
         color: '#1a5f7a',
         textColor: '#ffffff'
@@ -159,6 +261,7 @@
 
     const fonteCantina = {
         id: 'fonte-cantina',
+        events: listaEventosCantina,
         googleCalendarId: ID_AGENDA_CANTINA,
         color: '#2e7d32',
         textColor: '#ffffff'
@@ -189,11 +292,11 @@
             calendarIniciado = true;
         }
 
-        // Limpa eventos antigos
+        // Limpa eventos antigos da tela
         var fontesAtivas = calendar.getEventSources();
         fontesAtivas.forEach(f => f.remove());
 
-        // Carrega o calendário e configura o botão de contato
+        // Carrega o calendário selecionado e ajusta os botões
         if (tipo === 'eventos') {
             calendar.addEventSource(fonteEventos);
             btnReserva.href = LINK_WA_EVENTOS;
