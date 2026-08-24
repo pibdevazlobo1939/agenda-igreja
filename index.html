@@ -67,6 +67,25 @@
         
         .fc-list-event-time, .fc-list-day-side-text { display: none !important; } 
         .fc-event-title { white-space: normal !important; font-size: 0.85em; }
+
+        /* PADRONIZAÇÃO DOS EVENTOS DO GOOGLE CALENDAR */
+        .fc-daygrid-event-dot {
+            display: none !important;
+        }
+
+        .fc-daygrid-block-event, 
+        .fc-daygrid-dot-event {
+            border: none !important;
+            padding: 3px 6px !important;
+            border-radius: 4px !important;
+        }
+
+        .fc-daygrid-event-title, 
+        .fc-event-title,
+        .fc-event-main {
+            color: #ffffff !important;
+            font-weight: bold !important;
+        }
     </style>
 </head>
 <body>
@@ -235,6 +254,10 @@
                 height: 'auto',
                 headerToolbar: false,
                 displayEventTime: false,
+                eventDisplay: 'block', // Força exibição em bloco
+                eventClick: function(info) {
+                    info.jsEvent.preventDefault(); // Impede o redirecionamento ao clicar no evento
+                },
                 googleCalendarApiKey: GOOGLE_API_KEY,
                 datesSet: function(info) {
                     var fullTitle = info.view.title;
