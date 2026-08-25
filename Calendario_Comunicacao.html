@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Comunicação PIBVL - Gestão & Agenda</title>
+    <title>Calendário da Comunicação - PIBVL</title>
     
     <!-- CSS, FontAwesome & FullCalendar -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
@@ -11,8 +11,8 @@
     
     <style>
         body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background-color: #f0f2f5; margin: 0; padding: 0; }
-        .header-igreja { width: 100%; background: #fff; text-align: center; border-bottom: 3px solid #1a5f7a; }
-        .header-igreja img { width: 100%; max-width: 100%; height: auto; display: block; }
+        .header-igreja { width: 100%; background: #1a5f7a; text-align: center; padding: 25px 10px; color: white; box-shadow: 0 4px 10px rgba(0,0,0,0.15); }
+        .header-igreja h1 { margin: 0; font-size: 1.6em; text-transform: uppercase; letter-spacing: 1px; }
         .container { padding: 15px; position: relative; max-width: 900px; margin: auto; }
 
         /* TELA DE INÍCIO */
@@ -41,9 +41,9 @@
         .btn-prev { left: -10px; }
         .btn-next { right: -10px; }
         .fc-toolbar { display: none !important; }
-        .fc-event-title { white-space: normal !important; font-size: 0.85em; font-weight: bold; }
+        .fc-event-title { white-space: normal !important; font-size: 0.85em; font-weight: bold; cursor: pointer; }
         .view-selector { display: flex; justify-content: center; gap: 10px; margin-bottom: 15px; }
-        .view-selector button { padding: 8px 14px; border-radius: 20px; border: 1px solid #1a5f7a; background: white; color: #1a5f7a; font-weight: bold; font-size: 0.75em; text-transform: uppercase; cursor: pointer; }
+        .view-selector button { padding: 10px 16px; border-radius: 20px; border: 1px solid #1a5f7a; background: white; color: #1a5f7a; font-weight: bold; font-size: 0.8em; text-transform: uppercase; cursor: pointer; }
         .view-selector button.active { background: #1a5f7a; color: white; }
 
         /* TELA OBJETIVOS (KANBAN) */
@@ -68,7 +68,7 @@
 <body>
 
 <div class="header-igreja">
-    <img src="https://raw.githubusercontent.com/pibdevazlobo1939/agenda-igreja/main/logo_calendario%20da%20igreja2026.jpg" alt="PIB Vaz Lobo">
+    <h1>Calendário da Comunicação</h1>
 </div>
 
 <div class="container">
@@ -97,8 +97,8 @@
         <div id="custom-month-title"></div>
 
         <div class="view-selector">
-            <button id="btn-mesh" class="active" onclick="changeView('dayGridMonth', this)">Calendário</button>
-            <button id="btn-lista" onclick="changeView('listMonth', this)">Lista de Tarefas</button>
+            <button id="btn-mesh" class="active" onclick="changeView('dayGridMonth', this)">Calendário Visão Geral</button>
+            <button id="btn-lista" onclick="changeView('listMonth', this)">Artes do Mês & Responsáveis</button>
         </div>
 
         <div class="calendario-card">
@@ -153,25 +153,121 @@
     const GOOGLE_API_KEY = 'AIzaSyCFYYuGZzT-wAz1K1QdLfpQ8w5h5j5mrZ4';
     const ID_AGENDA_COMUNICACAO = '9d74d96c4a185a411386d6b048cb748625385de03b7b9ae8c4a3dcbc2e7b6dd5@group.calendar.google.com';
 
-    // Aniversariantes do Ano (Gera a prioridade sobre o versículo)
-    const aniversariantes = [
-        { nome: 'Lucas', data: '2026-03-15' },
-        { nome: 'Sarah', data: '2026-05-20' },
-        { nome: 'Maria', data: '2026-08-12' },
-        { nome: 'Esther', data: '2026-11-05' }
+    // 1. LISTA COMPLETA DE ANIVERSARIANTES EXTRAÍDA DO DOCUMENTO PDF
+    const membrosPdf = [
+        { nome: 'Flávia Vieira Cavalcante', data: '01-08' },
+        { nome: 'Wellington Conceição do Nascimento', data: '01-11' },
+        { nome: 'Neuza de Souza Gonçalves', data: '01-21' },
+        { nome: 'Maria Eduarda Soares João', data: '01-26' },
+        { nome: 'Esther Soares Carvalho de Sá', data: '02-03' },
+        { nome: 'Yan Camara Silva', data: '02-06' },
+        { nome: 'Maria Lúcia da Silva Vieira', data: '02-06' },
+        { nome: 'Carlos Alberto do Nascimento', data: '02-21' },
+        { nome: 'Francileide Vieira Cavalcante', data: '03-01' },
+        { nome: 'Thiago Gonçalves Santiago', data: '03-16' },
+        { nome: 'Kauan Vitor Moreira dos Santos', data: '03-18' },
+        { nome: 'Gabrielle Dias de Oliveira', data: '03-21' },
+        { nome: 'Thayna Santiago', data: '03-27' },
+        { nome: 'João Vieira', data: '03-27' },
+        { nome: 'CONSUELO DE SOUZA BERNABÉ', data: '04-03' },
+        { nome: 'Irene Fernandes da Silva', data: '04-07' },
+        { nome: 'Beatriz Meireles Santos', data: '04-09' },
+        { nome: 'Thais Artur de Oliveira Silva', data: '04-18' },
+        { nome: 'Jorgete Corrêa de Assis', data: '04-23' },
+        { nome: 'Maria Eduarda Rocha Brandão', data: '04-23' },
+        { nome: 'MARLENE CHAGAS FERNANDES', data: '04-25' },
+        { nome: 'Jorge Ferreira Rocha', data: '04-26' },
+        { nome: 'Maria Helena Alves Monteiro', data: '05-05' },
+        { nome: 'Noemia Barbosa Figueiredo', data: '05-07' },
+        { nome: 'Levi Martins de Carvalho', data: '05-12' },
+        { nome: 'Janete Martins de Carvalho', data: '05-14' },
+        { nome: 'Sarah da Silva Vieira', data: '05-21' },
+        { nome: 'Rubens de Azevedo Filho', data: '05-25' },
+        { nome: 'Lea dos Santos de Assis', data: '06-10' },
+        { nome: 'Maria da Gloria da Silva Moreira', data: '06-15' },
+        { nome: 'Maristela Martins de Carvalho Nogueira', data: '06-18' },
+        { nome: 'ALCYR BISPO', data: '06-20' },
+        { nome: 'Marcela Santos Lucas de Carvalho', data: '06-25' },
+        { nome: 'Loize Cristina paschoal de paula', data: '07-03' },
+        { nome: 'Deolinda Marques da Silva', data: '07-04' },
+        { nome: 'Sarah Sant\'Ana da Silva', data: '07-07' },
+        { nome: 'DEISE CORRÊA LIMA', data: '07-11' },
+        { nome: 'Alvaro Rodrigo de Faria Nogueira', data: '07-11' },
+        { nome: 'Ivone Magalhães da Silva', data: '07-13' },
+        { nome: 'Rafael de Carvalho Nogueira', data: '07-14' },
+        { nome: 'Jorge Rodrigues Jardim', data: '07-15' },
+        { nome: 'Gerusa Pereira da silva de azevedo', data: '07-26' },
+        { nome: 'Jorgina Elisabeth Nascimento da Silva', data: '08-03' },
+        { nome: 'ISABEL FERREIRA BISPO', data: '08-15' },
+        { nome: 'Jonathan da Silva Vieira', data: '08-26' },
+        { nome: 'Luciana Magalhães da Silva Soares de O', data: '08-26' },
+        { nome: 'Eline Lopes Gonçalves Santiago', data: '08-27' },
+        { nome: 'Ester Figueiredo Barbosa Jardim', data: '08-28' },
+        { nome: 'Ana Maria Silva', data: '09-05' },
+        { nome: 'Miguel Artur Gomes', data: '09-07' },
+        { nome: 'Neide Lúcia de Souza Gonçalves', data: '09-18' },
+        { nome: 'Daniel Rique Josefino da Silva', data: '10-03' },
+        { nome: 'Kailane Faustino josefino da Silva', data: '10-07' },
+        { nome: 'Patrícia Veras de Araújo', data: '10-15' },
+        { nome: 'Maria Helena Miranda Rocha', data: '10-19' },
+        { nome: 'Pyetro Davi Santana de souza', data: '10-20' },
+        { name: 'Jorge Santiago Filho', data: '10-27' },
+        { name: 'Artur Magalhães Soares de Oliveira', data: '11-07' },
+        { name: 'Zelândia carvalho Barboza', data: '11-08' },
+        { name: 'Lucas Silva de Oliveira', data: '12-04' },
+        { name: 'Sônia Maria dos Santos', data: '12-09' },
+        { name: 'DARLENE FERREIRA DA SILVA BISPO', data: '12-09' },
+        { name: 'Clara Maria Santos de Araújo', data: '12-13' },
+        { name: 'Luciana Barbosa Figueiredo Jardim', data: '12-16' },
+        { name: 'Judith Soares Bernardo', data: '12-28' },
+        { name: 'Renato Douglas Vitor Santana de Souza', data: '12-30' }
+    ];
+
+    // 2. TAREFAS DE CRIAÇÃO DE ARTES DA COMUNICAÇÃO
+    const artesEscala = [
+        { titulo: 'Arte: Mês da Juventude', data: '2026-08-01', responsavel: 'Sarah', envio: '25/07/2026' },
+        { titulo: 'Arte: Quarto de Guerra', data: '2026-09-11', responsavel: 'Sarah', envio: '04/09/2026' },
+        { titulo: 'Arte: Quarto de Guerra', data: '2026-09-12', responsavel: 'Sarah', envio: '05/09/2026' },
+        { titulo: 'Arte: Imersão', data: '2026-10-02', responsavel: 'Lucas', envio: '25/09/2026' },
+        { titulo: 'Arte: Imersão', data: '2026-10-03', responsavel: 'Lucas', envio: '26/09/2026' },
+        { titulo: 'Arte: Imersão', data: '2026-10-04', responsavel: 'Lucas', envio: '27/09/2026' },
+        { titulo: 'Arte: Dia das Crianças', data: '2026-10-11', responsavel: 'Lucas', envio: '04/10/2026' },
+        { titulo: 'Arte: Dia do Educador Cristão', data: '2026-10-18', responsavel: 'Lucas', envio: '11/10/2026' },
+        { titulo: 'Arte: Dia da Reforma Protestante', data: '2026-10-21', responsavel: 'Sarah', envio: '14/10/2026' },
+        { titulo: 'Arte: Culto da Dança', data: '2026-10-31', responsavel: 'Sarah', envio: '24/10/2026' },
+        { titulo: 'Arte: Dia da Bíblia', data: '2026-12-13', responsavel: 'Lucas', envio: '06/12/2026' },
+        { titulo: 'Arte: Ano Novo', data: '2026-12-31', responsavel: 'Sarah', envio: '24/12/2026' }
     ];
 
     function gerarEventosLocais() {
         let eventos = [];
-        let datasAniversario = new Set();
+        let datasReservadas = new Set();
 
-        aniversariantes.forEach(aniv => {
-            datasAniversario.add(aniv.data);
+        // Adicionar Escala de Artes
+        artesEscala.forEach(arte => {
             eventos.push({
-                title: `🎂 Aniversário: ${aniv.nome}`,
-                start: aniv.data,
+                title: `${arte.titulo} - ${arte.responsavel}`,
+                start: arte.data,
+                color: '#8e44ad',
+                textColor: '#ffffff',
+                extendedProps: {
+                    tipo: 'arte',
+                    responsavel: arte.responsavel,
+                    envio: arte.envio
+                }
+            });
+        });
+
+        // Adicionar Aniversariantes do PDF
+        membrosPdf.forEach(membro => {
+            let dataCompleta = `2026-${membro.data}`;
+            datasReservadas.add(dataCompleta);
+            eventos.push({
+                title: `🎂 Aniversário: ${membro.nome}`,
+                start: dataCompleta,
                 color: '#e67e22',
-                textColor: '#ffffff'
+                textColor: '#ffffff',
+                extendedProps: { tipo: 'aniversario' }
             });
         });
 
@@ -183,12 +279,14 @@
             let diaSemana = dataAtual.getDay();
             let dataIso = dataAtual.toISOString().split('T')[0];
 
-            if ((diaSemana === 1 || diaSemana === 5) && !datasAniversario.has(dataIso)) {
+            if ((diaSemana === 1 || diaSemana === 5) && !datasReservadas.has(dataIso)) {
                 eventos.push({
-                    title: '📖 Versículo do Dia',
+                    title: '📖 Versículo do Dia (Canva)',
                     start: dataIso,
                     color: '#27ae60',
-                    textColor: '#ffffff'
+                    textColor: '#ffffff',
+                    url: 'https://www.canva.com',
+                    extendedProps: { tipo: 'versiculo' }
                 });
             }
             dataAtual.setDate(dataAtual.getDate() + 1);
@@ -233,6 +331,15 @@
                             textColor: '#ffffff'
                         }
                     ],
+                    eventClick: function(info) {
+                        if (info.event.extendedProps.tipo === 'versiculo') {
+                            info.jsEvent.preventDefault();
+                            window.open('https://www.canva.com', '_blank');
+                        } else if (info.event.extendedProps.tipo === 'arte') {
+                            info.jsEvent.preventDefault();
+                            alert(`🎨 EVENTO DE CRIAÇÃO DE ARTE\n\n📌 Arte: ${info.event.title}\n👤 Responsável: ${info.event.extendedProps.responsavel}\n⚠️ ATENÇÃO: Enviar a arte pronta no grupo até ${info.event.extendedProps.envio} (1 semana de antecedência)!`);
+                        }
+                    },
                     datesSet: function(info) {
                         var fullTitle = info.view.title;
                         var monthOnly = fullTitle.split(' de ')[0];
