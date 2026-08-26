@@ -19,9 +19,9 @@
         #tela-inicio { text-align: center; padding: 30px 10px; }
         .titulo-menu { font-size: 1.4em; font-weight: bold; color: #1a5f7a; margin-bottom: 25px; }
 
-        .botoes-menu { display: flex; flex-direction: column; gap: 20px; align-items: center; max-width: 450px; margin: 0 auto; }
+        .botoes-menu { display: flex; flex-direction: column; gap: 18px; align-items: center; max-width: 450px; margin: 0 auto; }
         .btn-glossy {
-            width: 100%; padding: 18px 20px; border-radius: 12px; font-size: 1.1em; font-weight: bold; text-transform: uppercase;
+            width: 100%; padding: 18px 20px; border-radius: 12px; font-size: 1.05em; font-weight: bold; text-transform: uppercase;
             letter-spacing: 0.5px; color: #ffffff; cursor: pointer; border: 2px solid #ffffff;
             box-shadow: 0 8px 15px rgba(0,0,0,0.25), inset 0 2px 3px rgba(255,255,255,0.8), inset 0 -4px 6px rgba(0,0,0,0.4);
             display: flex; align-items: center; justify-content: center; gap: 12px;
@@ -30,6 +30,15 @@
         .btn-glossy:active { transform: translateY(3px); box-shadow: 0 3px 6px rgba(0,0,0,0.3); }
         .btn-glossy-azul { background: linear-gradient(180deg, #3291b8 0%, #1a5f7a 50%, #0f3d50 100%); }
         .btn-glossy-roxo { background: linear-gradient(180deg, #8e44ad 0%, #6c3483 50%, #4a235a 100%); }
+        .btn-glossy-verde { background: linear-gradient(180deg, #2ecc71 0%, #27ae60 50%, #1e8449 100%); }
+
+        /* SEÇÃO DE SINCRONIZAÇÃO */
+        #tela-sincronizar { display: none; }
+        .sync-card { background: white; border-radius: 12px; padding: 15px; margin-bottom: 12px; box-shadow: 0 2px 5px rgba(0,0,0,0.08); display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+        .sync-info { display: flex; flex-direction: column; gap: 4px; text-align: left; }
+        .sync-title { font-weight: bold; color: #333; font-size: 0.95em; }
+        .sync-sub { font-size: 0.8em; color: #666; }
+        .btn-add-cal { background: #27ae60; color: white; padding: 10px 14px; border-radius: 8px; text-decoration: none; font-weight: bold; font-size: 0.8em; display: inline-flex; align-items: center; gap: 6px; white-space: nowrap; }
 
         /* TELA CALENDÁRIO */
         #tela-calendario { display: none; }
@@ -42,8 +51,10 @@
         .btn-next { right: -10px; }
         .fc-toolbar { display: none !important; }
         .fc-event-title { white-space: normal !important; font-size: 0.85em; font-weight: bold; cursor: pointer; }
-        .view-selector { display: flex; justify-content: center; gap: 10px; margin-bottom: 15px; }
-        .view-selector button { padding: 10px 16px; border-radius: 20px; border: 1px solid #1a5f7a; background: white; color: #1a5f7a; font-weight: bold; font-size: 0.8em; text-transform: uppercase; cursor: pointer; }
+        
+        /* FILTROS DO CALENDÁRIO */
+        .view-selector { display: flex; justify-content: center; gap: 8px; margin-bottom: 15px; flex-wrap: wrap; }
+        .view-selector button { padding: 8px 12px; border-radius: 20px; border: 1px solid #1a5f7a; background: white; color: #1a5f7a; font-weight: bold; font-size: 0.75em; text-transform: uppercase; cursor: pointer; }
         .view-selector button.active { background: #1a5f7a; color: white; }
 
         /* TELA OBJETIVOS (KANBAN) */
@@ -80,13 +91,16 @@
             <button class="btn-glossy btn-glossy-azul" onclick="abrirTela('calendario')">
                 <i class="fas fa-calendar-alt"></i> Calendário da Equipe
             </button>
+            <button class="btn-glossy btn-glossy-verde" onclick="abrirTela('sincronizar')">
+                <i class="fas fa-mobile-alt"></i> Salvar Artes no Celular
+            </button>
             <button class="btn-glossy btn-glossy-roxo" onclick="abrirTela('objetivos')">
                 <i class="fas fa-bullseye"></i> Objetivos & Conquistas
             </button>
         </div>
     </div>
 
-    <!-- 2. TELA DO CALENDÁRIO -->
+    <!-- 2. TELA DO CALENDÁRIO COM FILTROS ORGANIZADOS -->
     <div id="tela-calendario">
         <div class="top-bar">
             <button class="btn-voltar" onclick="voltarInicio()">
@@ -97,8 +111,10 @@
         <div id="custom-month-title"></div>
 
         <div class="view-selector">
-            <button id="btn-mesh" class="active" onclick="changeView('dayGridMonth', this)">Calendário Visão Geral</button>
-            <button id="btn-lista" onclick="changeView('listMonth', this)">Artes do Mês & Responsáveis</button>
+            <button id="btn-filtro-tudo" class="active" onclick="filtrarEventos('todos', this)">Ver Tudo</button>
+            <button id="btn-filtro-artes" onclick="filtrarEventos('artes', this)">🎨 Artes do Mês</button>
+            <button id="btn-filtro-aniv" onclick="filtrarEventos('aniversarios', this)">🎂 Aniversariantes</button>
+            <button id="btn-filtro-vers" onclick="filtrarEventos('versiculos', this)">📖 Versículos</button>
         </div>
 
         <div class="calendario-card">
@@ -108,7 +124,20 @@
         </div>
     </div>
 
-    <!-- 3. TELA DE OBJETIVOS (KANBAN) -->
+    <!-- 3. TELA DE SALVAR ARTES NO CELULAR -->
+    <div id="tela-sincronizar">
+        <div class="top-bar">
+            <button class="btn-voltar" onclick="voltarInicio()">
+                <i class="fas fa-arrow-left"></i> Voltar ao Menu
+            </button>
+        </div>
+        <h2 style="text-align: center; color: #1a5f7a; margin-top: 0;">Salvar Artes na Agenda do Celular</h2>
+        <p style="text-align: center; font-size: 0.85em; color: #666; margin-bottom: 20px;">Clique no botão ao lado da arte para adicioná-la direto ao Google Agenda do seu celular.</p>
+        
+        <div id="lista-sincronizacao"></div>
+    </div>
+
+    <!-- 4. TELA DE OBJETIVOS (KANBAN) -->
     <div id="tela-objetivos">
         <div class="top-bar">
             <button class="btn-voltar" onclick="voltarInicio()">
@@ -148,18 +177,23 @@
 <script>
     var calendar;
     var calendarIniciado = false;
+    var filtroAtual = 'todos';
+
+    // LINKS DO CANVA
+    const LINK_CANVA_ANIVERSARIANTES = 'https://www.canva.com/design/DAHAOcawJkI/WT6WGGtM4BzNPaFpEdROfQ/edit';
+    const LINK_CANVA_VERSICULOS = 'https://www.canva.com/design/DAG9-GIdCGM/VV-FoEupgp3szu6N46yDSA/edit';
 
     // CREDENCIAIS GOOGLE CALENDAR
     const GOOGLE_API_KEY = 'AIzaSyCFYYuGZzT-wAz1K1QdLfpQ8w5h5j5mrZ4';
     const ID_AGENDA_COMUNICACAO = '9d74d96c4a185a411386d6b048cb748625385de03b7b9ae8c4a3dcbc2e7b6dd5@group.calendar.google.com';
 
-    // 1. LISTA COMPLETA DE ANIVERSARIANTES EXTRAÍDA DO DOCUMENTO PDF
+    // 1. ANIVERSARIANTES COMPLETOS[cite: 1]
     const membrosPdf = [
         { nome: 'Flávia Vieira Cavalcante', data: '01-08' },
         { nome: 'Wellington Conceição do Nascimento', data: '01-11' },
         { nome: 'Neuza de Souza Gonçalves', data: '01-21' },
         { nome: 'Maria Eduarda Soares João', data: '01-26' },
-        { nome: 'Esther Soares Carvalho de Sá', data: '02-03' },
+        { nome: 'Esther Soares Carvalho de Sá', data: '03-02' },
         { nome: 'Yan Camara Silva', data: '02-06' },
         { nome: 'Maria Lúcia da Silva Vieira', data: '02-06' },
         { nome: 'Carlos Alberto do Nascimento', data: '02-21' },
@@ -211,64 +245,65 @@
         { nome: 'Patrícia Veras de Araújo', data: '10-15' },
         { nome: 'Maria Helena Miranda Rocha', data: '10-19' },
         { nome: 'Pyetro Davi Santana de souza', data: '10-20' },
-        { name: 'Jorge Santiago Filho', data: '10-27' },
-        { name: 'Artur Magalhães Soares de Oliveira', data: '11-07' },
-        { name: 'Zelândia carvalho Barboza', data: '11-08' },
-        { name: 'Lucas Silva de Oliveira', data: '12-04' },
-        { name: 'Sônia Maria dos Santos', data: '12-09' },
-        { name: 'DARLENE FERREIRA DA SILVA BISPO', data: '12-09' },
-        { name: 'Clara Maria Santos de Araújo', data: '12-13' },
-        { name: 'Luciana Barbosa Figueiredo Jardim', data: '12-16' },
-        { name: 'Judith Soares Bernardo', data: '12-28' },
-        { name: 'Renato Douglas Vitor Santana de Souza', data: '12-30' }
+        { nome: 'Jorge Santiago Filho', data: '10-27' },
+        { nome: 'Artur Magalhães Soares de Oliveira', data: '11-07' },
+        { nome: 'Zelândia carvalho Barboza', data: '11-08' },
+        { nome: 'Lucas Silva de Oliveira', data: '12-04' },
+        { nome: 'Sônia Maria dos Santos', data: '12-09' },
+        { nome: 'DARLENE FERREIRA DA SILVA BISPO', data: '12-09' },
+        { nome: 'Clara Maria Santos de Araújo', data: '12-13' },
+        { nome: 'Luciana Barbosa Figueiredo Jardim', data: '12-16' },
+        { nome: 'Judith Soares Bernardo', data: '12-28' },
+        { nome: 'Renato Douglas Vitor Santana de Souza', data: '12-30' }
     ];
 
-    // 2. TAREFAS DE CRIAÇÃO DE ARTES DA COMUNICAÇÃO
+    // 2. ESCALA COMPLETA DE ARTES DA COMUNICAÇÃO
     const artesEscala = [
-        { titulo: 'Arte: Mês da Juventude', data: '2026-08-01', responsavel: 'Sarah', envio: '25/07/2026' },
-        { titulo: 'Arte: Quarto de Guerra', data: '2026-09-11', responsavel: 'Sarah', envio: '04/09/2026' },
-        { titulo: 'Arte: Quarto de Guerra', data: '2026-09-12', responsavel: 'Sarah', envio: '05/09/2026' },
-        { titulo: 'Arte: Imersão', data: '2026-10-02', responsavel: 'Lucas', envio: '25/09/2026' },
-        { titulo: 'Arte: Imersão', data: '2026-10-03', responsavel: 'Lucas', envio: '26/09/2026' },
-        { titulo: 'Arte: Imersão', data: '2026-10-04', responsavel: 'Lucas', envio: '27/09/2026' },
-        { titulo: 'Arte: Dia das Crianças', data: '2026-10-11', responsavel: 'Lucas', envio: '04/10/2026' },
-        { titulo: 'Arte: Dia do Educador Cristão', data: '2026-10-18', responsavel: 'Lucas', envio: '11/10/2026' },
-        { titulo: 'Arte: Dia da Reforma Protestante', data: '2026-10-21', responsavel: 'Sarah', envio: '14/10/2026' },
-        { titulo: 'Arte: Culto da Dança', data: '2026-10-31', responsavel: 'Sarah', envio: '24/10/2026' },
-        { titulo: 'Arte: Dia da Bíblia', data: '2026-12-13', responsavel: 'Lucas', envio: '06/12/2026' },
-        { titulo: 'Arte: Ano Novo', data: '2026-12-31', responsavel: 'Sarah', envio: '24/12/2026' }
+        { titulo: 'Mês da Juventude', data: '2026-08-01', dataFim: '2026-08-02', responsavel: 'Sarah', envio: '25/07/2026' },
+        { titulo: 'Quarto de Guerra', data: '2026-09-11', dataFim: '2026-09-13', responsavel: 'Sarah', envio: '04/09/2026' },
+        { titulo: 'Imersão', data: '2026-10-02', dataFim: '2026-10-05', responsavel: 'Lucas', envio: '25/09/2026' },
+        { titulo: 'Dia das Crianças', data: '2026-10-11', dataFim: '2026-10-12', responsavel: 'Lucas', envio: '04/10/2026' },
+        { titulo: 'Dia do Educador Cristão', data: '2026-10-18', dataFim: '2026-10-19', responsavel: 'Lucas', envio: '11/10/2026' },
+        { titulo: 'Dia da Reforma Protestante', data: '2026-10-21', dataFim: '2026-10-22', responsavel: 'Sarah', envio: '14/10/2026' },
+        { titulo: 'Culto da Dança', data: '2026-10-31', dataFim: '2026-11-01', responsavel: 'Sarah', envio: '24/10/2026' },
+        { titulo: 'Dia da Bíblia', data: '2026-12-13', dataFim: '2026-12-14', responsavel: 'Lucas', envio: '06/12/2026' },
+        { titulo: 'Ano Novo', data: '2026-12-31', dataFim: '2027-01-01', responsavel: 'Sarah', envio: '24/12/2026' }
     ];
 
     function gerarEventosLocais() {
         let eventos = [];
         let datasReservadas = new Set();
 
-        // Adicionar Escala de Artes
+        // Artes
         artesEscala.forEach(arte => {
-            eventos.push({
-                title: `${arte.titulo} - ${arte.responsavel}`,
-                start: arte.data,
-                color: '#8e44ad',
-                textColor: '#ffffff',
-                extendedProps: {
-                    tipo: 'arte',
-                    responsavel: arte.responsavel,
-                    envio: arte.envio
-                }
-            });
+            if (filtroAtual === 'todos' || filtroAtual === 'artes') {
+                eventos.push({
+                    title: `🎨 Arte: ${arte.titulo} (${arte.responsavel})`,
+                    start: arte.data,
+                    color: '#8e44ad',
+                    textColor: '#ffffff',
+                    extendedProps: {
+                        tipo: 'arte',
+                        responsavel: arte.responsavel,
+                        envio: arte.envio
+                    }
+                });
+            }
         });
 
-        // Adicionar Aniversariantes do PDF
+        // Aniversariantes
         membrosPdf.forEach(membro => {
             let dataCompleta = `2026-${membro.data}`;
             datasReservadas.add(dataCompleta);
-            eventos.push({
-                title: `🎂 Aniversário: ${membro.nome}`,
-                start: dataCompleta,
-                color: '#e67e22',
-                textColor: '#ffffff',
-                extendedProps: { tipo: 'aniversario' }
-            });
+            if (filtroAtual === 'todos' || filtroAtual === 'aniversarios') {
+                eventos.push({
+                    title: `🎂 Aniversário: ${membro.nome}`,
+                    start: dataCompleta,
+                    color: '#e67e22',
+                    textColor: '#ffffff',
+                    extendedProps: { tipo: 'aniversario' }
+                });
+            }
         });
 
         // Versículos Automáticos (Segundas e Sextas)
@@ -280,14 +315,15 @@
             let dataIso = dataAtual.toISOString().split('T')[0];
 
             if ((diaSemana === 1 || diaSemana === 5) && !datasReservadas.has(dataIso)) {
-                eventos.push({
-                    title: '📖 Versículo do Dia (Canva)',
-                    start: dataIso,
-                    color: '#27ae60',
-                    textColor: '#ffffff',
-                    url: 'https://www.canva.com',
-                    extendedProps: { tipo: 'versiculo' }
-                });
+                if (filtroAtual === 'todos' || filtroAtual === 'versiculos') {
+                    eventos.push({
+                        title: '📖 Versículo do Dia',
+                        start: dataIso,
+                        color: '#27ae60',
+                        textColor: '#ffffff',
+                        extendedProps: { tipo: 'versiculo' }
+                    });
+                }
             }
             dataAtual.setDate(dataAtual.getDate() + 1);
         }
@@ -309,7 +345,10 @@
 
     function abrirTela(tipo) {
         document.getElementById('tela-inicio').style.display = 'none';
-        
+        document.getElementById('tela-calendario').style.display = 'none';
+        document.getElementById('tela-sincronizar').style.display = 'none';
+        document.getElementById('tela-objetivos').style.display = 'none';
+
         if (tipo === 'calendario') {
             document.getElementById('tela-calendario').style.display = 'block';
             if (!calendarIniciado) {
@@ -323,7 +362,9 @@
                     googleCalendarApiKey: GOOGLE_API_KEY,
                     eventSources: [
                         {
-                            events: gerarEventosLocais()
+                            events: function(fetchInfo, successCallback, failureCallback) {
+                                successCallback(gerarEventosLocais());
+                            }
                         },
                         {
                             googleCalendarId: ID_AGENDA_COMUNICACAO,
@@ -332,11 +373,12 @@
                         }
                     ],
                     eventClick: function(info) {
+                        info.jsEvent.preventDefault();
                         if (info.event.extendedProps.tipo === 'versiculo') {
-                            info.jsEvent.preventDefault();
-                            window.open('https://www.canva.com', '_blank');
+                            window.open(LINK_CANVA_VERSICULOS, '_blank');
+                        } else if (info.event.extendedProps.tipo === 'aniversario') {
+                            window.open(LINK_CANVA_ANIVERSARIANTES, '_blank');
                         } else if (info.event.extendedProps.tipo === 'arte') {
-                            info.jsEvent.preventDefault();
                             alert(`🎨 EVENTO DE CRIAÇÃO DE ARTE\n\n📌 Arte: ${info.event.title}\n👤 Responsável: ${info.event.extendedProps.responsavel}\n⚠️ ATENÇÃO: Enviar a arte pronta no grupo até ${info.event.extendedProps.envio} (1 semana de antecedência)!`);
                         }
                     },
@@ -350,25 +392,56 @@
                 calendarIniciado = true;
             }
             calendar.updateSize();
+        } else if (tipo === 'sincronizar') {
+            document.getElementById('tela-sincronizar').style.display = 'block';
+            renderizarListaSincronizacao();
         } else if (tipo === 'objetivos') {
             document.getElementById('tela-objetivos').style.display = 'block';
             renderizarKanban();
         }
     }
 
+    function filtrarEventos(categoria, btn) {
+        filtroAtual = categoria;
+        document.querySelectorAll('.view-selector button').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        if (calendar) {
+            calendar.refetchEvents();
+        }
+    }
+
+    function renderizarListaSincronizacao() {
+        const container = document.getElementById('lista-sincronizacao');
+        container.innerHTML = '';
+
+        artesEscala.forEach(arte => {
+            const dataFormatada = arte.data.split('-').reverse().join('/');
+            const urlGoogle = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent('Arte: ' + arte.titulo + ' - ' + arte.responsavel)}&dates=${arte.data.replace(/-/g,'')}/${arte.dataFim.replace(/-/g,'')}&details=${encodeURIComponent('RESPONSÁVEL: ' + arte.responsavel + '\n⚠️ Enviar a arte no grupo até ' + arte.envio + '!')}`;
+
+            const card = document.createElement('div');
+            card.className = 'sync-card';
+            card.innerHTML = `
+                <div class="sync-info">
+                    <div class="sync-title">🎨 ${arte.titulo}</div>
+                    <div class="sync-sub">📅 ${dataFormatada} | Responsável: <b>${arte.responsavel}</b></div>
+                </div>
+                <a href="${urlGoogle}" target="_blank" class="btn-add-cal">
+                    <i class="fas fa-plus-circle"></i> Salvar no Celular
+                </a>
+            `;
+            container.appendChild(card);
+        });
+    }
+
     function voltarInicio() {
         document.getElementById('tela-calendario').style.display = 'none';
+        document.getElementById('tela-sincronizar').style.display = 'none';
         document.getElementById('tela-objetivos').style.display = 'none';
         document.getElementById('tela-inicio').style.display = 'block';
     }
 
     function calPrev() { calendar.prev(); }
     function calNext() { calendar.next(); }
-    function changeView(viewType, btn) {
-        calendar.changeView(viewType);
-        document.querySelectorAll('.view-selector button').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-    }
 
     function renderizarKanban() {
         const colDesejos = document.getElementById('lista-desejos');
