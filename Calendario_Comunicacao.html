@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Calendário da Comunicação - PIBVL</title>
+    <title>Painel da Comunicação - PIBVL</title>
     
     <!-- CSS, FontAwesome & FullCalendar -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
@@ -59,6 +59,10 @@
 
         /* TELA OBJETIVOS (KANBAN) */
         #tela-objetivos { display: none; }
+        .form-adicionar-meta { background: white; border-radius: 12px; padding: 15px; margin-bottom: 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.08); display: flex; flex-direction: column; gap: 10px; }
+        .form-adicionar-meta input { padding: 10px; border: 1px solid #ccc; border-radius: 6px; font-size: 0.9em; }
+        .btn-salvar-meta { background: #1a5f7a; color: white; border: none; padding: 10px; border-radius: 6px; font-weight: bold; cursor: pointer; text-transform: uppercase; }
+
         .kanban-board { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 15px; margin-top: 15px; }
         .kanban-column { background: #ebedf0; border-radius: 12px; padding: 12px; min-height: 400px; display: flex; flex-direction: column; }
         .kanban-column h3 { font-size: 1em; text-transform: uppercase; margin: 0 0 12px 0; padding-bottom: 8px; border-bottom: 2px solid #ccc; display: flex; justify-content: space-between; align-items: center; }
@@ -79,7 +83,7 @@
 <body>
 
 <div class="header-igreja">
-    <h1>Calendário da Comunicação</h1>
+    <h1>Painel de Gestão da Comunicação</h1>
 </div>
 
 <div class="container">
@@ -91,8 +95,8 @@
             <button class="btn-glossy btn-glossy-azul" onclick="abrirTela('calendario')">
                 <i class="fas fa-calendar-alt"></i> Calendário da Equipe
             </button>
-            <button class="btn-glossy btn-glossy-verde" onclick="abrirTela('sincronizar')">
-                <i class="fas fa-mobile-alt"></i> Salvar Artes no Celular
+            <button class="btn-glossy btn-glossy-verde" onclick="acessarSincronizacaoComSenha()">
+                <i class="fas fa-mobile-alt"></i> Salvar Eventos no Calendário
             </button>
             <button class="btn-glossy btn-glossy-roxo" onclick="abrirTela('objetivos')">
                 <i class="fas fa-bullseye"></i> Objetivos & Conquistas
@@ -100,7 +104,7 @@
         </div>
     </div>
 
-    <!-- 2. TELA DO CALENDÁRIO COM FILTROS ORGANIZADOS -->
+    <!-- 2. TELA DO CALENDÁRIO COM FILTROS SEM EMOJIS -->
     <div id="tela-calendario">
         <div class="top-bar">
             <button class="btn-voltar" onclick="voltarInicio()">
@@ -112,9 +116,9 @@
 
         <div class="view-selector">
             <button id="btn-filtro-tudo" class="active" onclick="filtrarEventos('todos', this)">Ver Tudo</button>
-            <button id="btn-filtro-artes" onclick="filtrarEventos('artes', this)">🎨 Artes do Mês</button>
-            <button id="btn-filtro-aniv" onclick="filtrarEventos('aniversarios', this)">🎂 Aniversariantes</button>
-            <button id="btn-filtro-vers" onclick="filtrarEventos('versiculos', this)">📖 Versículos</button>
+            <button id="btn-filtro-artes" onclick="filtrarEventos('artes', this)">Artes do Mês</button>
+            <button id="btn-filtro-aniv" onclick="filtrarEventos('aniversarios', this)">Aniversariantes</button>
+            <button id="btn-filtro-vers" onclick="filtrarEventos('versiculos', this)">Versículos</button>
         </div>
 
         <div class="calendario-card">
@@ -124,20 +128,20 @@
         </div>
     </div>
 
-    <!-- 3. TELA DE SALVAR ARTES NO CELULAR -->
+    <!-- 3. TELA PRIVADA DE SALVAR EVENTOS (PROTEGIDA POR SENHA) -->
     <div id="tela-sincronizar">
         <div class="top-bar">
             <button class="btn-voltar" onclick="voltarInicio()">
                 <i class="fas fa-arrow-left"></i> Voltar ao Menu
             </button>
         </div>
-        <h2 style="text-align: center; color: #1a5f7a; margin-top: 0;">Salvar Artes na Agenda do Celular</h2>
-        <p style="text-align: center; font-size: 0.85em; color: #666; margin-bottom: 20px;">Clique no botão ao lado da arte para adicioná-la direto ao Google Agenda do seu celular.</p>
+        <h2 style="text-align: center; color: #1a5f7a; margin-top: 0;">Salvar Eventos no Calendário</h2>
+        <p style="text-align: center; font-size: 0.85em; color: #666; margin-bottom: 20px;">Área restrita. Clique no botão ao lado para adicionar o evento à sua agenda.</p>
         
         <div id="lista-sincronizacao"></div>
     </div>
 
-    <!-- 4. TELA DE OBJETIVOS (KANBAN) -->
+    <!-- 4. TELA DE OBJETIVOS (COM FORMULÁRIO DE ADIÇÃO DE EQUIPAMENTOS) -->
     <div id="tela-objetivos">
         <div class="top-bar">
             <button class="btn-voltar" onclick="voltarInicio()">
@@ -146,6 +150,15 @@
         </div>
 
         <h2 style="text-align: center; color: #1a5f7a; margin-top: 0;">Metas & Equipamentos</h2>
+
+        <div class="form-adicionar-meta">
+            <b style="color: #1a5f7a; font-size: 0.9em;">Adicionar Novo Equipamento / Meta:</b>
+            <input type="text" id="input-titulo-equipamento" placeholder="Nome do Equipamento (Ex: Lente 50mm f/1.8)">
+            <input type="text" id="input-desc-equipamento" placeholder="Descrição rápida">
+            <input type="url" id="input-link-equipamento" placeholder="Link da loja (https://...)">
+            <input type="url" id="input-foto-equipamento" placeholder="Link da Imagem / Foto (https://...)">
+            <button class="btn-salvar-meta" onclick="adicionarEquipamento()">Cadastrar Equipamento</button>
+        </div>
 
         <div class="kanban-board">
             <div class="kanban-column col-desejos">
@@ -169,10 +182,9 @@
     </div>
 </div>
 
-<!-- SCRIPTS DE NAVEGAÇÃO E FULLCALENDAR + GOOGLE CALENDAR -->
+<!-- SCRIPTS DE NAVEGAÇÃO E FULLCALENDAR -->
 <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/locales/pt-br.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@fullcalendar/google-calendar@5.11.3/main.min.js"></script>
 
 <script>
     var calendar;
@@ -182,10 +194,6 @@
     // LINKS DO CANVA
     const LINK_CANVA_ANIVERSARIANTES = 'https://www.canva.com/design/DAHAOcawJkI/WT6WGGtM4BzNPaFpEdROfQ/edit';
     const LINK_CANVA_VERSICULOS = 'https://www.canva.com/design/DAG9-GIdCGM/VV-FoEupgp3szu6N46yDSA/edit';
-
-    // CREDENCIAIS GOOGLE CALENDAR
-    const GOOGLE_API_KEY = 'AIzaSyCFYYuGZzT-wAz1K1QdLfpQ8w5h5j5mrZ4';
-    const ID_AGENDA_COMUNICACAO = '9d74d96c4a185a411386d6b048cb748625385de03b7b9ae8c4a3dcbc2e7b6dd5@group.calendar.google.com';
 
     // 1. ANIVERSARIANTES COMPLETOS[cite: 1]
     const membrosPdf = [
@@ -278,7 +286,7 @@
         artesEscala.forEach(arte => {
             if (filtroAtual === 'todos' || filtroAtual === 'artes') {
                 eventos.push({
-                    title: `🎨 Arte: ${arte.titulo} (${arte.responsavel})`,
+                    title: `Arte: ${arte.titulo} (${arte.responsavel})`,
                     start: arte.data,
                     color: '#8e44ad',
                     textColor: '#ffffff',
@@ -291,13 +299,13 @@
             }
         });
 
-        // Aniversariantes
+        // Aniversariantes (Apenas o Nome do Aniversariante)
         membrosPdf.forEach(membro => {
             let dataCompleta = `2026-${membro.data}`;
             datasReservadas.add(dataCompleta);
             if (filtroAtual === 'todos' || filtroAtual === 'aniversarios') {
                 eventos.push({
-                    title: `🎂 Aniversário: ${membro.nome}`,
+                    title: membro.nome,
                     start: dataCompleta,
                     color: '#e67e22',
                     textColor: '#ffffff',
@@ -317,7 +325,7 @@
             if ((diaSemana === 1 || diaSemana === 5) && !datasReservadas.has(dataIso)) {
                 if (filtroAtual === 'todos' || filtroAtual === 'versiculos') {
                     eventos.push({
-                        title: '📖 Versículo do Dia',
+                        title: 'Versículo do Dia',
                         start: dataIso,
                         color: '#27ae60',
                         textColor: '#ffffff',
@@ -343,6 +351,15 @@
         }
     ];
 
+    function acessarSincronizacaoComSenha() {
+        const senhaIngressada = prompt("Insira a senha de acesso para gerenciar o calendário:");
+        if (senhaIngressada === "1939") {
+            abrirTela('sincronizar');
+        } else if (senhaIngressada !== null) {
+            alert("Senha incorreta!");
+        }
+    }
+
     function abrirTela(tipo) {
         document.getElementById('tela-inicio').style.display = 'none';
         document.getElementById('tela-calendario').style.display = 'none';
@@ -359,19 +376,9 @@
                     height: 'auto',
                     headerToolbar: false,
                     displayEventTime: false,
-                    googleCalendarApiKey: GOOGLE_API_KEY,
-                    eventSources: [
-                        {
-                            events: function(fetchInfo, successCallback, failureCallback) {
-                                successCallback(gerarEventosLocais());
-                            }
-                        },
-                        {
-                            googleCalendarId: ID_AGENDA_COMUNICACAO,
-                            color: '#1a5f7a',
-                            textColor: '#ffffff'
-                        }
-                    ],
+                    events: function(fetchInfo, successCallback, failureCallback) {
+                        successCallback(gerarEventosLocais());
+                    },
                     eventClick: function(info) {
                         info.jsEvent.preventDefault();
                         if (info.event.extendedProps.tipo === 'versiculo') {
@@ -379,7 +386,7 @@
                         } else if (info.event.extendedProps.tipo === 'aniversario') {
                             window.open(LINK_CANVA_ANIVERSARIANTES, '_blank');
                         } else if (info.event.extendedProps.tipo === 'arte') {
-                            alert(`🎨 EVENTO DE CRIAÇÃO DE ARTE\n\n📌 Arte: ${info.event.title}\n👤 Responsável: ${info.event.extendedProps.responsavel}\n⚠️ ATENÇÃO: Enviar a arte pronta no grupo até ${info.event.extendedProps.envio} (1 semana de antecedência)!`);
+                            alert(`EVENTO DE CRIAÇÃO DE ARTE\n\nArte: ${info.event.title}\nResponsável: ${info.event.extendedProps.responsavel}\nATENÇÃO: Enviar a arte pronta no grupo até ${info.event.extendedProps.envio}!`);
                         }
                     },
                     datesSet: function(info) {
@@ -422,7 +429,7 @@
             card.className = 'sync-card';
             card.innerHTML = `
                 <div class="sync-info">
-                    <div class="sync-title">🎨 ${arte.titulo}</div>
+                    <div class="sync-title">${arte.titulo}</div>
                     <div class="sync-sub">📅 ${dataFormatada} | Responsável: <b>${arte.responsavel}</b></div>
                 </div>
                 <a href="${urlGoogle}" target="_blank" class="btn-add-cal">
@@ -442,6 +449,35 @@
 
     function calPrev() { calendar.prev(); }
     function calNext() { calendar.next(); }
+
+    function adicionarEquipamento() {
+        const titulo = document.getElementById('input-titulo-equipamento').value;
+        const descricao = document.getElementById('input-desc-equipamento').value;
+        const link = document.getElementById('input-link-equipamento').value;
+        const foto = document.getElementById('input-foto-equipamento').value;
+
+        if (!titulo) {
+            alert('Por favor, digite pelo menos o nome do equipamento!');
+            return;
+        }
+
+        const novoItem = {
+            id: Date.now(),
+            titulo: titulo,
+            descricao: descricao,
+            foto: foto || 'https://images.unsplash.com/photo-1516035069371-29a1b244cc32?w=400',
+            link: link,
+            status: 'desejos'
+        };
+
+        ObjetivosData.push(novoItem);
+        renderizarKanban();
+
+        document.getElementById('input-titulo-equipamento').value = '';
+        document.getElementById('input-desc-equipamento').value = '';
+        document.getElementById('input-link-equipamento').value = '';
+        document.getElementById('input-foto-equipamento').value = '';
+    }
 
     function renderizarKanban() {
         const colDesejos = document.getElementById('lista-desejos');
