@@ -34,11 +34,11 @@
 
         /* SEÇÃO DE SINCRONIZAÇÃO */
         #tela-sincronizar { display: none; }
-        .sync-card { background: white; border-radius: 12px; padding: 15px; margin-bottom: 12px; box-shadow: 0 2px 5px rgba(0,0,0,0.08); display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+        .sync-card { background: white; border-radius: 12px; padding: 15px; margin-bottom: 12px; box-shadow: 0 2px 5px rgba(0,0,0,0.08); display: flex; justify-content: space-between; align-items: center; gap: 10px; transition: opacity 0.3s ease; }
         .sync-info { display: flex; flex-direction: column; gap: 4px; text-align: left; }
         .sync-title { font-weight: bold; color: #333; font-size: 0.95em; }
         .sync-sub { font-size: 0.8em; color: #666; }
-        .btn-add-cal { background: #27ae60; color: white; padding: 10px 14px; border-radius: 8px; text-decoration: none; font-weight: bold; font-size: 0.8em; display: inline-flex; align-items: center; gap: 6px; white-space: nowrap; }
+        .btn-add-cal { background: #27ae60; color: white; padding: 10px 14px; border-radius: 8px; text-decoration: none; font-weight: bold; font-size: 0.8em; display: inline-flex; align-items: center; gap: 6px; white-space: nowrap; border: none; cursor: pointer; }
 
         /* TELA CALENDÁRIO */
         #tela-calendario { display: none; }
@@ -52,16 +52,16 @@
         .fc-toolbar { display: none !important; }
         .fc-event-title { white-space: normal !important; font-size: 0.85em; font-weight: bold; cursor: pointer; }
         
-        /* FILTROS DO CALENDÁRIO */
+        /* FILTROS E ABAS */
         .view-selector { display: flex; justify-content: center; gap: 8px; margin-bottom: 15px; flex-wrap: wrap; }
-        .view-selector button { padding: 8px 12px; border-radius: 20px; border: 1px solid #1a5f7a; background: white; color: #1a5f7a; font-weight: bold; font-size: 0.75em; text-transform: uppercase; cursor: pointer; }
+        .view-selector button { padding: 8px 14px; border-radius: 20px; border: 1px solid #1a5f7a; background: white; color: #1a5f7a; font-weight: bold; font-size: 0.8em; text-transform: uppercase; cursor: pointer; }
         .view-selector button.active { background: #1a5f7a; color: white; }
 
-        /* TELA OBJETIVOS (KANBAN) */
+        /* TELA OBJETIVOS (KANBAN SIMPLIFICADO) */
         #tela-objetivos { display: none; }
         .form-adicionar-meta { background: white; border-radius: 12px; padding: 15px; margin-bottom: 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.08); display: flex; flex-direction: column; gap: 10px; }
         .form-adicionar-meta input { padding: 10px; border: 1px solid #ccc; border-radius: 6px; font-size: 0.9em; }
-        .btn-salvar-meta { background: #1a5f7a; color: white; border: none; padding: 10px; border-radius: 6px; font-weight: bold; cursor: pointer; text-transform: uppercase; }
+        .btn-salvar-meta { background: #1a5f7a; color: white; border: none; padding: 12px; border-radius: 6px; font-weight: bold; cursor: pointer; text-transform: uppercase; font-size: 0.9em; }
 
         .kanban-board { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 15px; margin-top: 15px; }
         .kanban-column { background: #ebedf0; border-radius: 12px; padding: 12px; min-height: 400px; display: flex; flex-direction: column; }
@@ -70,10 +70,9 @@
         .col-proximos h3 { color: #2980b9; border-color: #3498db; }
         .col-realizados h3 { color: #27ae60; border-color: #2ecc71; }
         .kanban-card { background: white; border-radius: 10px; padding: 12px; margin-bottom: 12px; box-shadow: 0 2px 5px rgba(0,0,0,0.08); display: flex; flex-direction: column; gap: 8px; }
-        .kanban-card img { width: 100%; height: 140px; object-fit: cover; border-radius: 6px; }
-        .kanban-card .card-title { font-weight: bold; font-size: 1em; color: #333; }
-        .kanban-card .card-desc { font-size: 0.85em; color: #666; margin: 0; }
-        .kanban-card .card-link { font-size: 0.8em; color: #1a5f7a; text-decoration: none; font-weight: bold; display: inline-flex; align-items: center; gap: 4px; }
+        .kanban-card iframe { width: 100%; height: 160px; border-radius: 6px; border: none; overflow: hidden; }
+        .kanban-card .card-autor { font-size: 0.78em; color: #555; background: #eef2f5; padding: 4px 8px; border-radius: 4px; display: inline-flex; align-items: center; gap: 5px; width: fit-content; }
+        .kanban-card .card-link { font-size: 0.85em; color: #1a5f7a; text-decoration: none; font-weight: bold; display: inline-flex; align-items: center; gap: 5px; margin-top: 4px; }
         .card-actions { display: flex; justify-content: space-between; margin-top: 5px; border-top: 1px solid #eee; padding-top: 8px; }
         .btn-move { background: #f0f0f0; border: none; padding: 5px 10px; border-radius: 6px; cursor: pointer; font-size: 0.75em; font-weight: bold; color: #444; }
 
@@ -95,16 +94,16 @@
             <button class="btn-glossy btn-glossy-azul" onclick="abrirTela('calendario')">
                 <i class="fas fa-calendar-alt"></i> Calendário da Equipe
             </button>
-            <button class="btn-glossy btn-glossy-verde" onclick="acessarSincronizacaoComSenha()">
-                <i class="fas fa-mobile-alt"></i> Salvar Eventos no Calendário
-            </button>
             <button class="btn-glossy btn-glossy-roxo" onclick="abrirTela('objetivos')">
                 <i class="fas fa-bullseye"></i> Objetivos & Conquistas
+            </button>
+            <button class="btn-glossy btn-glossy-verde" onclick="acessarSincronizacaoComSenha()">
+                <i class="fas fa-mobile-alt"></i> Salvar Eventos no Calendário
             </button>
         </div>
     </div>
 
-    <!-- 2. TELA DO CALENDÁRIO COM FILTROS SEM EMOJIS -->
+    <!-- 2. TELA DO CALENDÁRIO -->
     <div id="tela-calendario">
         <div class="top-bar">
             <button class="btn-voltar" onclick="voltarInicio()">
@@ -128,7 +127,7 @@
         </div>
     </div>
 
-    <!-- 3. TELA PRIVADA DE SALVAR EVENTOS (PROTEGIDA POR SENHA) -->
+    <!-- 3. TELA PRIVADA DE SALVAR EVENTOS (PROTEGIDA POR SENHA 1939) -->
     <div id="tela-sincronizar">
         <div class="top-bar">
             <button class="btn-voltar" onclick="voltarInicio()">
@@ -136,12 +135,19 @@
             </button>
         </div>
         <h2 style="text-align: center; color: #1a5f7a; margin-top: 0;">Salvar Eventos no Calendário</h2>
-        <p style="text-align: center; font-size: 0.85em; color: #666; margin-bottom: 20px;">Área restrita. Clique no botão ao lado para adicionar o evento à sua agenda.</p>
+        
+        <!-- ABAS DE NAVEGAÇÃO ENTRE ARTES E ANIVERSARIANTES -->
+        <div class="view-selector">
+            <button id="btn-sync-artes" class="active" onclick="alternarAbaSync('artes')"><i class="fas fa-palette"></i> Artes e Eventos</button>
+            <button id="btn-sync-aniv" onclick="alternarAbaSync('aniversarios')"><i class="fas fa-birthday-cake"></i> Aniversariantes (Ago-Dez)</button>
+        </div>
+
+        <p style="text-align: center; font-size: 0.85em; color: #666; margin-bottom: 20px;">Clique para sincronizar com sua agenda. Os itens salvos sumirão da lista para evitar duplicidade.</p>
         
         <div id="lista-sincronizacao"></div>
     </div>
 
-    <!-- 4. TELA DE OBJETIVOS (COM FORMULÁRIO DE ADIÇÃO DE EQUIPAMENTOS) -->
+    <!-- 4. TELA DE OBJETIVOS -->
     <div id="tela-objetivos">
         <div class="top-bar">
             <button class="btn-voltar" onclick="voltarInicio()">
@@ -152,12 +158,10 @@
         <h2 style="text-align: center; color: #1a5f7a; margin-top: 0;">Metas & Equipamentos</h2>
 
         <div class="form-adicionar-meta">
-            <b style="color: #1a5f7a; font-size: 0.9em;">Adicionar Novo Equipamento / Meta:</b>
-            <input type="text" id="input-titulo-equipamento" placeholder="Nome do Equipamento (Ex: Lente 50mm f/1.8)">
-            <input type="text" id="input-desc-equipamento" placeholder="Descrição rápida">
-            <input type="url" id="input-link-equipamento" placeholder="Link da loja (https://...)">
-            <input type="url" id="input-foto-equipamento" placeholder="Link da Imagem / Foto (https://...)">
-            <button class="btn-salvar-meta" onclick="adicionarEquipamento()">Cadastrar Equipamento</button>
+            <b style="color: #1a5f7a; font-size: 0.9em;">Indicar Novo Equipamento:</b>
+            <input type="url" id="input-link-produto" placeholder="Cole o link do produto (Ex: https://...)">
+            <input type="tel" id="input-celular-usuario" placeholder="Seu Número de Celular / WhatsApp">
+            <button class="btn-salvar-meta" onclick="adicionarEquipamentoPorLink()">Cadastrar Equipamento</button>
         </div>
 
         <div class="kanban-board">
@@ -190,12 +194,12 @@
     var calendar;
     var calendarIniciado = false;
     var filtroAtual = 'todos';
+    var abaSyncAtual = 'artes';
 
-    // LINKS DO CANVA
     const LINK_CANVA_ANIVERSARIANTES = 'https://www.canva.com/design/DAHAOcawJkI/WT6WGGtM4BzNPaFpEdROfQ/edit';
     const LINK_CANVA_VERSICULOS = 'https://www.canva.com/design/DAG9-GIdCGM/VV-FoEupgp3szu6N46yDSA/edit';
 
-    // 1. ANIVERSARIANTES COMPLETOS[cite: 1]
+    // 1. ANIVERSARIANTES COMPLETOS (MM-DD)
     const membrosPdf = [
         { nome: 'Flávia Vieira Cavalcante', data: '01-08' },
         { nome: 'Wellington Conceição do Nascimento', data: '01-11' },
@@ -265,7 +269,7 @@
         { nome: 'Renato Douglas Vitor Santana de Souza', data: '12-30' }
     ];
 
-    // 2. ESCALA COMPLETA DE ARTES DA COMUNICAÇÃO
+    // 2. ESCALA DE ARTES
     const artesEscala = [
         { titulo: 'Mês da Juventude', data: '2026-08-01', dataFim: '2026-08-02', responsavel: 'Sarah', envio: '25/07/2026' },
         { titulo: 'Quarto de Guerra', data: '2026-09-11', dataFim: '2026-09-13', responsavel: 'Sarah', envio: '04/09/2026' },
@@ -282,7 +286,6 @@
         let eventos = [];
         let datasReservadas = new Set();
 
-        // Artes
         artesEscala.forEach(arte => {
             if (filtroAtual === 'todos' || filtroAtual === 'artes') {
                 eventos.push({
@@ -299,7 +302,6 @@
             }
         });
 
-        // Aniversariantes (Apenas o Nome do Aniversariante)
         membrosPdf.forEach(membro => {
             let dataCompleta = `2026-${membro.data}`;
             datasReservadas.add(dataCompleta);
@@ -314,7 +316,6 @@
             }
         });
 
-        // Versículos Automáticos (Segundas e Sextas)
         let dataAtual = new Date(2026, 0, 1);
         let dataFim = new Date(2026, 11, 31);
 
@@ -339,14 +340,12 @@
         return eventos;
     }
 
-    /* KANBAN DATA */
+    /* BANCO DE DADOS DE OBJETIVOS & EQUIPAMENTOS */
     let ObjetivosData = [
         {
             id: 1,
-            titulo: 'Câmera Sony A7 III',
-            descricao: 'Melhorar a qualidade das transmissões e fotos.',
-            foto: 'https://images.unsplash.com/photo-1516035069371-29a1b244cc32?w=400',
-            link: 'https://www.google.com',
+            link: 'https://www.amazon.com.br',
+            celular: '(21) 99999-9999',
             status: 'desejos'
         }
     ];
@@ -410,34 +409,80 @@
 
     function filtrarEventos(categoria, btn) {
         filtroAtual = categoria;
-        document.querySelectorAll('.view-selector button').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('#tela-calendario .view-selector button').forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
         if (calendar) {
             calendar.refetchEvents();
         }
     }
 
+    function alternarAbaSync(aba) {
+        abaSyncAtual = aba;
+        document.getElementById('btn-sync-artes').classList.toggle('active', aba === 'artes');
+        document.getElementById('btn-sync-aniv').classList.toggle('active', aba === 'aniversarios');
+        renderizarListaSincronizacao();
+    }
+
+    function salvarEMover(elementoBtn, urlGoogle) {
+        window.open(urlGoogle, '_blank');
+        const card = elementoBtn.closest('.sync-card');
+        card.style.opacity = '0';
+        setTimeout(() => {
+            card.remove();
+        }, 300);
+    }
+
     function renderizarListaSincronizacao() {
         const container = document.getElementById('lista-sincronizacao');
         container.innerHTML = '';
 
-        artesEscala.forEach(arte => {
-            const dataFormatada = arte.data.split('-').reverse().join('/');
-            const urlGoogle = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent('Arte: ' + arte.titulo + ' - ' + arte.responsavel)}&dates=${arte.data.replace(/-/g,'')}/${arte.dataFim.replace(/-/g,'')}&details=${encodeURIComponent('RESPONSÁVEL: ' + arte.responsavel + '\n⚠️ Enviar a arte no grupo até ' + arte.envio + '!')}`;
+        if (abaSyncAtual === 'artes') {
+            artesEscala.forEach(arte => {
+                const dataFormatada = arte.data.split('-').reverse().join('/');
+                const urlGoogle = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent('Arte: ' + arte.titulo + ' - ' + arte.responsavel)}&dates=${arte.data.replace(/-/g,'')}/${arte.dataFim.replace(/-/g,'')}&details=${encodeURIComponent('RESPONSÁVEL: ' + arte.responsavel + '\n⚠️ Enviar a arte no grupo até ' + arte.envio + '!')}`;
 
-            const card = document.createElement('div');
-            card.className = 'sync-card';
-            card.innerHTML = `
-                <div class="sync-info">
-                    <div class="sync-title">${arte.titulo}</div>
-                    <div class="sync-sub">📅 ${dataFormatada} | Responsável: <b>${arte.responsavel}</b></div>
-                </div>
-                <a href="${urlGoogle}" target="_blank" class="btn-add-cal">
-                    <i class="fas fa-plus-circle"></i> Salvar no Celular
-                </a>
-            `;
-            container.appendChild(card);
-        });
+                const card = document.createElement('div');
+                card.className = 'sync-card';
+                card.innerHTML = `
+                    <div class="sync-info">
+                        <div class="sync-title">${arte.titulo}</div>
+                        <div class="sync-sub">📅 ${dataFormatada} | Responsável: <b>${arte.responsavel}</b></div>
+                    </div>
+                    <button onclick="salvarEMover(this, '${urlGoogle}')" class="btn-add-cal">
+                        <i class="fas fa-plus-circle"></i> Salvar no Celular
+                    </button>
+                `;
+                container.appendChild(card);
+            });
+        } else if (abaSyncAtual === 'aniversarios') {
+            // FILTRAR ANIVERSARIANTES DE AGOSTO (08) ATÉ DEZEMBRO (12)
+            const aniversariantesFiltrados = membrosPdf.filter(m => {
+                const mes = parseInt(m.data.split('-')[0], 10);
+                return mes >= 8 && mes <= 12;
+            });
+
+            aniversariantesFiltrados.forEach(membro => {
+                const [mes, dia] = membro.data.split('-');
+                const dataInicio = `2026${mes}${dia}`;
+                const dataFim = `2026${mes}${dia}`;
+                const dataExibicao = `${dia}/${mes}/2026`;
+
+                const urlGoogle = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent('🎂 Aniversário: ' + membro.nome)}&dates=${dataInicio}/${dataFim}&details=${encodeURIComponent('Aniversariante do dia na PIBVL: ' + membro.nome)}`;
+
+                const card = document.createElement('div');
+                card.className = 'sync-card';
+                card.innerHTML = `
+                    <div class="sync-info">
+                        <div class="sync-title">🎉 ${membro.nome}</div>
+                        <div class="sync-sub">📅 Data: <b>${dataExibicao}</b></div>
+                    </div>
+                    <button onclick="salvarEMover(this, '${urlGoogle}')" class="btn-add-cal">
+                        <i class="fas fa-plus-circle"></i> Salvar no Celular
+                    </button>
+                `;
+                container.appendChild(card);
+            });
+        }
     }
 
     function voltarInicio() {
@@ -450,33 +495,27 @@
     function calPrev() { calendar.prev(); }
     function calNext() { calendar.next(); }
 
-    function adicionarEquipamento() {
-        const titulo = document.getElementById('input-titulo-equipamento').value;
-        const descricao = document.getElementById('input-desc-equipamento').value;
-        const link = document.getElementById('input-link-equipamento').value;
-        const foto = document.getElementById('input-foto-equipamento').value;
+    function adicionarEquipamentoPorLink() {
+        const link = document.getElementById('input-link-produto').value;
+        const celular = document.getElementById('input-celular-usuario').value;
 
-        if (!titulo) {
-            alert('Por favor, digite pelo menos o nome do equipamento!');
+        if (!link) {
+            alert('Por favor, cole o link do produto!');
             return;
         }
 
         const novoItem = {
             id: Date.now(),
-            titulo: titulo,
-            descricao: descricao,
-            foto: foto || 'https://images.unsplash.com/photo-1516035069371-29a1b244cc32?w=400',
             link: link,
+            celular: celular || 'Não informado',
             status: 'desejos'
         };
 
         ObjetivosData.push(novoItem);
         renderizarKanban();
 
-        document.getElementById('input-titulo-equipamento').value = '';
-        document.getElementById('input-desc-equipamento').value = '';
-        document.getElementById('input-link-equipamento').value = '';
-        document.getElementById('input-foto-equipamento').value = '';
+        document.getElementById('input-link-produto').value = '';
+        document.getElementById('input-celular-usuario').value = '';
     }
 
     function renderizarKanban() {
@@ -505,10 +544,9 @@
             }
 
             card.innerHTML = `
-                ${item.foto ? `<img src="${item.foto}" alt="${item.titulo}">` : ''}
-                <div class="card-title">${item.titulo}</div>
-                <p class="card-desc">${item.descricao}</p>
-                ${item.link ? `<a href="${item.link}" target="_blank" class="card-link"><i class="fas fa-external-link-alt"></i> Ver Loja / Preço</a>` : ''}
+                <iframe src="${item.link}" loading="lazy"></iframe>
+                <div class="card-autor"><i class="fas fa-phone-alt"></i> Cadastrado por: <b>${item.celular}</b></div>
+                <a href="${item.link}" target="_blank" class="card-link"><i class="fas fa-external-link-alt"></i> Abrir Página do Produto</a>
                 <div class="card-actions">
                     ${btnEsquerda}
                     ${btnDireita}
